@@ -103,11 +103,11 @@
                 </div>
                 <?php endif; ?>
                 
-                <?php if ($site_slogan):?>
+            <!--     <?php if ($site_slogan):?>
                 <div id="site-slogan">
                 <?php print $site_slogan; ?>
                 </div>
-                <?php endif; ?>
+                <?php endif; ?> -->
                 
                 <?php if ($page['header']) :?>
                 <?php print render($page['header']); ?>
@@ -253,7 +253,7 @@
 
                             <?php print render($title_prefix); ?>
                             <?php if ($title):?>
-                            <h1 class="page-title"><?php print $title; ?></h1>
+                            <!-- <h1 class="page-title"><?php print $title; ?></h1> -->
                             <?php endif; ?>
                             <?php print render($title_suffix); ?>
 
@@ -382,11 +382,11 @@
                 <div class="col-md-12">
                     <!-- #subfooter-left -->
                     <div class="subfooter-area">
-                    <?php print theme('links__system_secondary_menu', array('links' => $secondary_menu, 'attributes' => array('class' => array('menu', 'secondary-menu', 'links', 'clearfix')))); ?>                        
+         <!--            <?php print theme('links__system_secondary_menu', array('links' => $secondary_menu, 'attributes' => array('class' => array('menu', 'secondary-menu', 'links', 'clearfix')))); ?>                        
 
                     <?php if ($page['footer']):?>
                     <?php print render($page['footer']); ?>
-                    <?php endif; ?>
+                    <?php endif; ?> -->
 
                     </div>
                     <!-- EOF: #subfooter-left -->
