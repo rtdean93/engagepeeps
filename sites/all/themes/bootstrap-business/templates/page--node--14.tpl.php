@@ -99,7 +99,7 @@
 
                 <?php if ($site_name):?>
                 <div id="site-name">
-                <a href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>"><?php print $site_name; ?></a>
+                <a href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>">Adoption Fundraiser for Billy and Daphne Gazdagh</a>
                 </div>
                 <?php endif; ?>
                 
