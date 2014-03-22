@@ -1,0 +1,37 @@
+
+		<?php
+		$this->Widget->clear();		
+		$this->Widget->create($this->_("AdminClients.editachaccount.boxtitle_editachaccount", true));
+		
+		$this->Form->create();
+		?>
+		<div class="inner">
+			<?php
+			// Set partials
+			echo $this->Html->ifSet($contact_info);
+			echo $this->Html->ifSet($ach_info);
+			?>
+			<div class="button_row"><a class="btn_right submit" href="#"><?php $this->_("AdminClients.editachaccount.field_accountsubmit"); ?></a></div>
+		</div>
+		<?php
+		$this->Form->end();
+		
+		$this->Javascript->setInline('
+		$("#country").change(function() {
+			$(this).blestaRequest("get", "' . $this->Html->safe($this->base_uri . "clients/getstates/") . '" + $(this).val(), null, function(data) {
+					// Remove all existing items
+					$("option", "#state").remove();
+					
+					// Append all new items
+					$.each(data, function(val, text) {
+						$("#state").append( new Option(text, val));
+					});
+				},
+				null,
+				{dataType: "json"}
+			);
+		});
+		');
+		
+		$this->Widget->end();
+		?>		

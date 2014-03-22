@@ -1,0 +1,25 @@
+
+	<ul>
+        <li>
+            <?php
+            $this->Form->label($this->_("Ccavenue.merchant_id", true), "merchant_id");
+            $this->Form->fieldText("merchant_id", $this->Html->ifSet($meta['merchant_id']), array('id'=>"merchant_id"));
+            ?>
+            <span class="tooltip"><?php $this->_("AppController.tooltip.text");?><div><?php $this->_("Ccavenue.merchant_id_note");?></div></span>
+        </li>
+        <li>
+            <?php
+            $this->Form->label($this->_("Ccavenue.working_key", true), "working_key");
+            $this->Form->fieldText("working_key", $this->Html->ifSet($meta['working_key']), array('id'=>"working_key"));
+            ?>
+            <span class="tooltip"><?php $this->_("AppController.tooltip.text");?><div><?php $this->_("Ccavenue.working_key_note");?></div></span>
+        </li>
+        <li>
+            <?php
+            $this->Form->fieldCheckbox("encrypt_mode", "true", ($this->Html->ifSet($meta['encrypt_mode'], "false") == "true"), array('id'=>"encrypt_mode"));
+            $this->Form->label($this->_("Ccavenue.encrypt_mode", true), "encrypt_mode", array('class'=>"inline"));
+            ?>
+            <span class="tooltip"><?php $this->_("AppController.tooltip.text");?><div><?php $this->_("Ccavenue.encrypt_mode_note"); ?></div></span>
+
+        </li>
+	</ul>

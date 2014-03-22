@@ -1,0 +1,14 @@
+.page { color:#797979;}
+.page .half { width:50%; float:left;}
+.page .section { margin:5px 0 10px 0;}
+.page .icon { padding-left: 40px;}
+	.page .icon.account { background:url(../../../../../vendors/fugue_icons/32/user-business-gray.png) no-repeat; }
+	.page .icon.support_manager { background:url(../../../../../vendors/fugue_icons/32/lifebuoy.png) no-repeat;}
+	.page .icon.download_manager { background:url(../../../../../vendors/fugue_icons/32/drive-download.png) no-repeat;}
+	.page .icon.order { background:url(../../../../../vendors/fugue_icons/32/shopping-basket.png) no-repeat;}
+
+.page .description { padding-bottom:8px; margin-bottom:18px; border-bottom:1px solid #dadada;}
+
+.page h1 { font-size:15px;}
+.page h1 a { font-weight:bold;}
+.page p { font-size:12px; line-height:16px; padding-top:4px; margin-bottom:8px;}

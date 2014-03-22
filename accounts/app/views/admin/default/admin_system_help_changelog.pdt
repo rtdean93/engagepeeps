@@ -1,0 +1,35 @@
+		<?php
+		echo $this->Html->ifSet($left_nav);		
+		?>
+		<div id="right_outer">
+			<?php echo $this->Html->ifSet($message);?>
+			<section id="right_container">
+				<?php
+				$this->Widget->clear();
+				$this->Widget->create($this->_("AdminSystemHelp.changelog.boxtitle_changelog", true));
+				?>
+				<div class="inner">
+					<?php
+					if ($this->Html->ifSet($changelog)) {
+					?>
+					<div class="pad changelog">
+						<?php echo $this->TextParser->encode("markdown", $this->Html->safe($changelog));?>
+					</div>
+					<?php
+					}
+					else {
+					?>
+					<div class="empty_section">
+						<div class="empty_box">
+							<?php $this->_("AdminSystemHelp.changelog.no_results");?>
+						</div>
+					</div>
+					<?php
+					}
+					?>
+				</div>
+				<?php
+				$this->Widget->end();
+				?>
+			</section>
+		</div>

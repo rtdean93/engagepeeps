@@ -1,0 +1,46 @@
+<ul class="no_border">
+	<li class="row first">
+		<?php
+		$this->Form->label(Language::_("Vpsdotnet.service_field.vpsdotnet_hostname", true), "vpsdotnet_hostname");
+		$this->Form->fieldText("vpsdotnet_hostname", $this->Html->ifSet($vars->vpsdotnet_hostname), array('id' => "vpsdotnet_hostname"));
+		?>
+	</li>
+	<li class="row">
+		<?php
+		$this->Form->label(Language::_("Vpsdotnet.service_field.vpsdotnet_label", true), "vpsdotnet_label");
+		$this->Form->fieldText("vpsdotnet_label", $this->Html->ifSet($vars->vpsdotnet_label), array('id' => "vpsdotnet_label"));
+		?>
+	</li>
+	<?php
+	if (in_array("cloud", $this->Html->ifSet($fields, array()))) {
+	?>
+	<li class="row">
+		<?php
+		$this->Form->label(Language::_("Vpsdotnet.service_field.vpsdotnet_cloud", true), "vpsdotnet_cloud");
+		$this->Form->fieldSelect("vpsdotnet_cloud", $this->Html->ifSet($clouds), $this->Html->ifSet($vars->vpsdotnet_cloud), array('id' => "vpsdotnet_cloud"));
+		?>
+	</li>
+	<?php
+	}
+	if (in_array("template_group", $this->Html->ifSet($fields, array())) && $this->Html->ifSet($template_groups)) {
+	?>
+	<li class="row">
+		<?php
+		$this->Form->label(Language::_("Vpsdotnet.service_field.vpsdotnet_template_group", true), "vpsdotnet_template_group");
+		$this->Form->fieldSelect("vpsdotnet_template_group", $this->Html->ifSet($template_groups), $this->Html->ifSet($vars->vpsdotnet_template_group), array('id' => "vpsdotnet_template_group"));
+		?>
+	</li>
+	<?php
+	}
+	if (in_array("template", $this->Html->ifSet($fields, array())) && $this->Html->ifSet($templates)) {
+	?>
+	<li class="row">
+		<?php
+		$this->Form->label(Language::_("Vpsdotnet.service_field.vpsdotnet_template", true), "vpsdotnet_template");
+		$this->Form->fieldSelect("vpsdotnet_template", $this->Html->ifSet($templates), $this->Html->ifSet($vars->vpsdotnet_template), array('id' => "vpsdotnet_template"));
+		?>
+	</li>
+	<?php
+	}
+	?>
+</ul>

@@ -1,0 +1,25 @@
+
+		<?php
+		echo $this->Html->ifSet($message);
+		
+		$this->WidgetClient->clear();
+		
+		if ($this->Html->ifSet($client_cancel_service, false)) {
+			$link_buttons = array(
+				array('name'=>$this->_("ClientServices.manage.cancel_service", true), 'attributes' => array("href" => $this->base_uri . "services/cancel/" . $this->Html->ifSet($service->id) . "/", 'class' => "cancel"))
+			);
+			$this->WidgetClient->setLinkButtons($link_buttons);
+		}
+		
+		$this->WidgetClient->setLinks($tabs);
+		$this->WidgetClient->renderSubHead(false);
+		$this->WidgetClient->create($this->_("ClientServices.manage.boxtitle_manage", true, $this->Html->ifSet($package->name), $this->Html->ifSet($service->name)), array('id'=>"client_services_manage"), $this->Html->ifSet($render_section, null));
+		
+		if ($this->Html->ifSet($tab_view)) {
+			echo $tab_view;
+		}
+		else {
+			echo $this->Html->ifSet($service_infobox);
+		}
+		$this->WidgetClient->end();
+		?>

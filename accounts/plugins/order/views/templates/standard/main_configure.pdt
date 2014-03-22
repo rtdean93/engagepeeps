@@ -1,0 +1,275 @@
+	<nav class="step_menu">
+		<ul>
+			<li>
+				<a href="<?php echo $this->Html->safe($this->base_uri . "plugin/order/main/index/" . $this->Html->ifSet($order_form->label));?>">
+					<strong><?php $this->_("Main.steps.step_1_name");?></strong>
+					<em><?php $this->_("Main.steps.step_1_description");?></em>
+				</a>
+			</li>
+			<li class="active">
+				<a href="<?php echo $this->Html->safe($this->base_uri . "plugin/order/main/configure/" . $this->Html->ifSet($order_form->label));?>">
+					<strong><?php $this->_("Main.steps.step_2_name");?></strong>
+					<em><?php $this->_("Main.steps.step_2_description");?></em>
+				</a>
+			</li>
+			<li>
+				<a href="<?php echo $this->Html->safe($this->base_uri . "plugin/order/main/review/" . $this->Html->ifSet($order_form->label));?>">
+					<strong><?php $this->_("Main.steps.step_3_name");?></strong>
+					<em><?php $this->_("Main.steps.step_3_description");?></em>
+				</a>
+			</li>
+			<li class="last">
+				<a href="<?php echo $this->Html->safe($this->base_uri . "plugin/order/main/checkout/" . $this->Html->ifSet($order_form->label));?>">
+					<strong><?php $this->_("Main.steps.step_4_name");?></strong>
+					<em><?php $this->_("Main.steps.step_4_description");?></em>
+				</a>
+			</li>
+		</ul>
+	</nav>
+
+	<section class="left_sec">
+		<?php
+		echo $this->Html->ifSet($message);
+		?>
+		<?php
+		$this->Form->create();
+		?>
+		<?php
+		$this->WidgetClient->clear();
+		$this->WidgetClient->renderSubHead(false);
+		if ($this->Html->ifSet($service_name)) 
+			$this->WidgetClient->create($this->_("Main.configure.header_configure_service", true, $this->Html->ifSet($service_name)));
+		else
+			$this->WidgetClient->create($this->_("Main.configure.header_configuration", true));
+		?>
+			<div class="heading">
+				<h5><?php $this->_("Main.configure.header_basic");?></h5>
+			</div>
+			<section class="pad content">
+				<ul>
+					<li class="last">
+						<div class="radios">
+							<?php
+							$i=0;
+							$selected_price = null;
+							foreach ($package->pricing as $price) {
+								if ($this->Html->ifSet($vars->pricing_id, $item['pricing_id']) == $price->id)
+									$selected_price = $price;
+							?>
+							<label class="radio_btn">
+								<?php
+								$this->Form->fieldRadio("pricing_id", $price->id, $this->Html->ifSet($vars->pricing_id, $item['pricing_id']) == $price->id);
+								$this->Form->fieldHidden("group_id", $item['group_id']);
+								?>
+								<span>
+									<?php
+									if ($this->Html->ifSet($price->period) == "onetime")
+										echo $this->Html->ifSet($periods[$price->period]);
+									else {
+										$term = $this->Html->_($price->term, true);
+										echo $this->Html->concat(" ", $term, ($term == 1 ? $this->Html->ifSet($periods[$price->period]) : $this->Html->ifSet($periods[$price->period . "_plural"])));
+									}
+									?>
+								</span>
+								<span class="price" style="display: none;"><?php echo $this->CurrencyFormat->format($price->price, $price->currency, array('code' => false));?></span>
+							</label>
+							<?php
+								$i++;
+							}
+							?>
+						</div>
+						<aside class="aside_sec">
+							<?php
+							if ($selected_price) {
+							?>
+							<span class="rate"><strong class="rate_value"><?php echo $this->CurrencyFormat->format($selected_price->price, $selected_price->currency, array('code' => false));?></strong></span>
+							<?php
+							}
+							?>
+						</aside>
+					</li>
+				</ul>
+				<div class="clear"></div>
+			</section>
+
+			<?php
+			if (($this->Html->ifSet($fields) && !empty($fields)) || $this->Html->ifSet($html) != "") {
+			?>
+			<div class="heading options">
+				<h5><?php $this->_("Main.configure.header_module", false, $this->Html->ifSet($module_name));?></h5>
+			</div>
+			<section class="pad content">
+				<ul class="no_border">
+					<?php
+					$i = 0;
+					foreach ($fields as $field) {
+					?>
+						<?php
+						if ($field->type != "fieldHidden") {
+						?>
+						<li class="row<?php echo ($i++ == 0 ? " first" : "");?>">
+						<?php
+						}
+
+						// Draw the primary label/field
+						call_user_func_array(array($this->Form, $field->type), $field->params);
+						
+						// Draw each form field associated with this label
+						$tooltips = array();
+						foreach ($field->fields as $input) {
+							
+							// Collect all tooltips to be displayed at the end
+							if ($input->type == "tooltip") {
+								$tooltips[] = $input;
+								continue;
+							}
+							
+							call_user_func_array(array($this->Form, $input->type), $input->params);
+							
+							// Draw the form field's secondary label if checkbox or radio item
+							if (($input->type == "fieldCheckbox" || $input->type == "fieldRadio") && isset($input->label)) {
+								if (isset($input->label->params['attributes']['class'])) {
+									if (is_array($input->label->params['attributes']['class']))
+										$input->label->params['attributes']['class'][] = "inline";
+									else
+										$input->label->params['attributes']['class'] .= " inline";
+								}
+								else
+									$input->label->params['attributes']['class'] = "inline";
+									
+								call_user_func_array(array($this->Form, "label"), $input->label->params);
+							}
+						}
+						
+						foreach ($tooltips as $tooltip) {
+						?>
+						<span class="tooltip">
+							<?php $this->_("AppController.tooltip.text");?>
+							<div><?php $this->Html->_($tooltip->params['message']);?></div>
+						</span>
+						<?php
+						}
+						
+						if ($field->type != "fieldHidden") {
+						?>
+						</li>
+					<?php
+						}
+					}
+					?>
+				</ul>
+				<?php echo $this->Html->ifSet($html);?>
+				<div class="clear"></div>
+			</section>
+			<?php
+			}
+			?>
+			
+			<div class="package_options">
+				<?php
+				if (isset($vars->configoptions)) {
+					foreach ($vars->configoptions as $key => $value) {
+						$this->Form->fieldHidden("configoptions[" . $key . "]", $value);
+					}
+				}
+				?>
+			</div>
+
+			<?php
+			if ($this->Html->ifSet($addon_groups) && !empty($addon_groups)) {
+			?>
+			<div class="heading options">
+				<h5><?php $this->_("Main.configure.header_addons");?></h5>
+			</div>
+			<section class="pad content">
+				<?php
+				foreach ($addon_groups as $addon_group) {
+				?>
+				<div class="group_container">
+					<h4><?php $this->Html->_($addon_group->name);?></h4>
+					<div id="addon_group_content_id_<?php $this->Html->_($addon_group->id);?>">
+						<div class="row">
+							<?php
+							$field_id = "addon_" . $this->Html->_($addon_group->id, true) . "_";
+							$this->Form->fieldRadio("addon[" . $this->Html->_($addon_group->id, true) . "][pricing_id]", "", $this->Html->ifSet($vars->addon[$addon_group->id]['id']) == "", array('id' => $field_id));
+							$this->Form->label($this->_("Main.configure.field_default_addon", true), $field_id, array('class' => "inline"));
+							?>
+						</div>
+						<?php
+						foreach ($addon_group->packages as $addon_package) {
+							foreach ($addon_package->pricing as $price) {
+								
+							$field_id = "addon_" . $this->Html->_($addon_group->id, true) . "_" . $this->Html->_($price->id, true);
+						?>
+						<div class="row">
+							
+							<span>
+								<?php
+								if ($this->Html->ifSet($price->period) == "onetime")
+									$term = $this->Html->ifSet($periods[$price->period]);
+								else {
+									$term = $this->Html->_($price->term, true);
+									$term = $this->Html->concat(" ", $term, ($term == 1 ? $this->Html->ifSet($periods[$price->period]) : $this->Html->ifSet($periods[$price->period . "_plural"])));
+								}
+								
+								$formatted_price = $this->CurrencyFormat->format($price->price, $price->currency, array('code' => false));
+								?>
+							</span>
+							
+							<?php
+							$this->Form->fieldRadio("addon[" . $this->Html->_($addon_group->id, true) . "][pricing_id]", $this->Html->_($price->id, true), $this->Html->ifSet($vars->addon[$addon_group->id]['pricing_id']) == $price->id, array('id' => $field_id));
+							$this->Form->label($this->_("Main.configure.field_addon_label", true, $addon_package->name, $term, $formatted_price), $field_id, array('class' => "inline"));
+							?>
+						</div>
+						<?php
+							}
+						}
+						?>
+					</div>
+				</div>
+				<?php
+				}
+				?>
+			</section>
+			<?php
+			}
+			?>
+			
+			<div class="button_row">                                           
+				<input type="submit" value="<?php $this->_("Main.configure.continue_btn");?>" class="submit-btn" />
+			</div>
+		<?php
+		$this->Form->end();
+		?>
+	</section>
+	
+	<?php
+	echo $this->Html->ifSet($order_summary);
+	?>
+	
+<script type="text/javascript">
+	$(document).ready(function() {
+		// Update value for pricing option
+		$("input[name='pricing_id']").change(function() {
+			$(".rate_value", $(this).closest("li")).html($(".price", $(this).closest("label")).html());
+		});
+		
+		// Fetch package options
+		packageOptions();
+		$('[name="pricing_id"]').change(function() {
+			packageOptions();
+		});
+		
+		function packageOptions() {
+			var pricing_id = $('[name="pricing_id"]:checked').val();
+			if (pricing_id) {
+				var params = $('[name^="configoptions"]', $('.package_options').closest('form')).serialize();
+				$(this).blestaRequest('GET', '<?php echo $this->Html->safe($this->base_uri . "plugin/order/main/packageoptions/" . $this->Html->ifSet($order_form->label) . "/");?>' + pricing_id, params, function(data) {
+					$('.package_options').html(data);
+				},
+				null,
+				{dataType: 'json'});
+			}
+		}
+	});
+</script>

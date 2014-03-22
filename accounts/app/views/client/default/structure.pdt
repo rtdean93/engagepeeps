@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html dir="<?php echo (in_array($this->_("AppController.lang.dir", true), array("ltr", "rtl")) ? $this->_("AppController.lang.dir", true) : "ltr");?>">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title><?php echo (($page_title = (isset($page_title) ? $page_title : $this->_($page_title_lang, true, $get_params))) ? $this->Html->_($page_title, true) . " | " : "") . $this->Html->_($system_company->name, true);?></title>
+		<link rel="shortcut icon" href="<?php echo $this->view_dir;?>images/favicon.ico" />
+		<link href="<?php echo $this->view_dir;?>css/jquery-ui.min.css" rel="stylesheet" type="text/css" />
+        <link href="<?php echo $this->view_dir;?>css/layout.css" rel="stylesheet" type="text/css" />
+        <link href="<?php echo $this->view_dir;?>css/css3.css" rel="stylesheet" type="text/css" />
+        <!--[if IE 9]><link href="<?php echo $this->view_dir;?>css/ie9_css3.css" rel="stylesheet" type="text/css" /><![endif]-->
+		<link href="<?php echo $this->view_dir;?>css/jquery.qtip.css" rel="stylesheet" type="text/css" />
+		<?php
+		// Theme CSS
+		if (isset($theme_css)) {
+		?>
+		<link href="<?php $this->Html->_($theme_css);?>" rel="stylesheet" type="text/css" media="screen" />
+		<?php
+		}
+		?>
+		<?php echo $this->Javascript->getFiles("head");?>
+		<?php
+		echo $this->Html->ifSet($custom_head);
+		?>
+    </head>
+    <body>
+        <section id="outer_layout"<?php echo ($this->Html->ifSet($outer_class) ? " class=\"" . $this->Html->_($outer_class, true) . "\"" : "");?>>
+            <header id="outer_header">
+                <section class="top_sec">
+                    <section class="layout">
+                        <div class="inner_layout">                        
+                            <div class="logo">
+								<a href="<?php echo $this->Html->safe($this->base_uri);?>">
+									<?php
+									if (!empty($theme_logo)) {
+									?>
+										<img src="<?php $this->Html->_($theme_logo);?>" alt="Logo" />
+									<?php
+									}
+									else {
+									?>
+										<img src="<?php echo $this->view_dir;?>images/logo.png" alt="Blesta" />
+									<?php
+									}
+									?>
+								</a>
+							</div>
+							
+							<?php
+							if ($this->Html->ifSet($staff_as_client)) {
+							?>
+							<div class="global_note"><?php $this->_("AppController.client_structure.staff_as_client_note", false, $this->Html->ifSet($this->admin_uri) . "clients/logoutasclient/");?></div>		
+							<?php
+							}
+							?>
+                        </div>
+                    </section>
+                </section>
+                <section class="outer_account">
+                    <section class="layout">
+                        <div class="inner_layout">
+                                <h2>
+									<?php
+									if ($this->Html->ifSet($title)) {
+										$this->Html->_($title);
+									}
+									else {
+										$this->_("AppController.client_structure.default_title");
+									}
+									?>
+								</h2>
+                                <div class="login_sec">
+									<?php
+									if ($this->Html->ifSet($logged_in)) {
+									?>
+                                    <span class="button"><a href="<?php echo $this->Html->safe($this->client_uri . "logout/");?>"><?php $this->_("AppController.client_structure.text_logout");?></a></span>
+									<?php
+									}
+									else {
+									?>
+									<span class="button"><a href="<?php echo $this->Html->safe($this->client_uri . "login/");?>"><?php $this->_("AppController.client_structure.text_login");?></a></span>
+									<?php
+									}
+									
+									if ($this->Html->ifSet($portal_installed, false)) {
+									?>
+                                    <span class="button"><a href="<?php echo $this->Html->safe(WEBDIR);?>"><?php $this->_("AppController.client_structure.text_return_to_portal");?></a></span>
+									<?php
+									}
+									?>
+                                </div>
+                        </div>
+                    </section>
+                </section>
+				<?php
+				if ($this->Html->ifSet($logged_in)) {
+				?>
+                <section class="outer_nav">
+                    <section class="layout">
+                        <div class="inner_layout">
+                            <nav id="nav">
+								<ul>
+									<?php
+									$i = 0;
+									$nav_total = count($nav);
+									foreach ($this->Html->ifSet($nav, array()) as $link => $value) {
+										$attributes = array();
+										$link_attributes = array();
+										if ($value['active'])
+											$link_attributes['class'][] = "active";
+											
+										if ($i == 0)
+											$attributes['class'][] = "first";
+										elseif ($i == $nav_total-1)
+											$attributes['class'][] = "last";
+									?>
+									<li<?php echo $this->Html->buildAttributes($attributes);?>>
+										<a href="<?php $this->Html->_($link);?>"<?php echo $this->Html->buildAttributes($link_attributes);?>><?php $this->Html->_($value['name']);?></a>
+									</li>
+									<?php
+										$i++;
+									}
+									unset($i);
+									?>	
+								</ul>
+                            </nav>
+                        </div>
+                    </section>
+                </section>
+				<?php
+				}
+				?>
+            </header>
+            <section class="layout">
+                <div class="page">
+					<?php echo $content;?>
+                </div>
+            </section>
+            <footer class="footer">
+                <section class="layout">                        
+                    <p>Powered by <a href="http://www.blesta.com/" class="blue" target="_blank">Blesta</a>, &copy; Phillips Data, Inc.</p>                           
+                </section>
+            </footer>
+        </section>
+		
+		<?php echo $this->Javascript->getFiles("body");?>
+		<?php echo $this->Javascript->getInline();?>
+    </body>
+</html>

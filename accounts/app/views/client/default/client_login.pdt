@@ -1,0 +1,61 @@
+<?php
+echo $this->Html->ifSet($message);
+?>
+	<div style="width: 40%; margin: 0 auto;">
+		<?php
+		$this->WidgetClient->clear();
+		$this->WidgetClient->create($this->_("ClientLogin.index.login_heading", true));
+		
+		$this->Form->create();
+		if ($this->Html->ifSet($vars->forward_to))
+			$this->Form->fieldHidden("forward_to", $vars->forward_to);
+		?>
+		<div class="pad" id="client_login">
+			<ul>
+				<li>
+					<span class="text-item">
+						<?php
+						$this->Form->label($this->_("ClientLogin.index.field_username", true), "login_username");
+						$this->Form->fieldText("username", $this->Html->ifSet($vars->username), array('id'=>"login_username"));
+						?>
+					</span>
+				</li>
+				<li>
+					<span class="text-item">
+						<?php
+						$this->Form->label($this->_("ClientLogin.index.field_password", true), "login_password");
+						$this->Form->fieldPassword("password", array('id'=>"login_password"));
+						?>
+					</span>
+				</li>
+				<li>
+					<?php
+					$this->Form->fieldCheckbox("remember_me", "true", $this->Html->ifSet($vars->remember_me, false), array("id"=>"login_remember_me"));
+					$this->Form->label($this->_("ClientLogin.index.field_rememberme", true), "login_remember_me", array('class' => "inline"));
+					?>
+				</li>
+				<li>
+					<label><a href="<?php echo $this->Html->safe($this->base_uri . "login/reset/");?>"><?php $this->_("ClientLogin.index.link_resetpassword");?></a></label>
+				</li>
+			</ul>
+		</div>
+		
+		<div class="button_row">
+			<div class="btn submit right_btn">
+				<a class="submit" href="#"><?php $this->_("ClientLogin.index.field_loginsubmit");?></a>
+			</div>
+		</div>
+		
+		<?php
+		$this->Form->fieldSubmit("login", "", array('class'=>"hide_submit", 'hidefocus'=>"true"));
+		$this->Form->end();
+		$this->WidgetClient->end();
+		?>
+	</div>
+<?php
+$this->Javascript->setInline('
+	$(document).ready(function() {
+		$("#login_username").focus();
+	});
+');
+?>

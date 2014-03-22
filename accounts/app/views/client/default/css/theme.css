@@ -1,0 +1,66 @@
+#outer_header .top_sec{
+    background: #theme_header_bg_color_top;
+    background: -webkit-gradient(linear, 0 0, 0 bottom, from(#theme_header_bg_color_top), to(#theme_header_bg_color_bottom));
+    background: -webkit-linear-gradient(#theme_header_bg_color_top, #theme_header_bg_color_bottom);
+    background: -moz-linear-gradient(#theme_header_bg_color_top, #theme_header_bg_color_bottom);
+    background: -ms-linear-gradient(#theme_header_bg_color_top, #theme_header_bg_color_bottom);
+    background: -o-linear-gradient(#theme_header_bg_color_top, #theme_header_bg_color_bottom);
+    background: linear-gradient(#theme_header_bg_color_top, #theme_header_bg_color_bottom);
+    -pie-background: linear-gradient(#theme_header_bg_color_top, #theme_header_bg_color_bottom);
+    position: relative;
+    behavior: url(../javascript/PIE.htc);
+}
+.outer_account{
+    background: #theme_page_title_background_color_top;
+    background: -webkit-gradient(linear, 0 0, 0 bottom, from(#theme_page_title_background_color_top), to(#34353a));
+    background: -webkit-linear-gradient(#theme_page_title_background_color_top, #theme_page_title_background_color_bottom);
+    background: -moz-linear-gradient(#theme_page_title_background_color_top, #theme_page_title_background_color_bottom);
+    background: -ms-linear-gradient(#theme_page_title_background_color_top, #theme_page_title_background_color_bottom);
+    background: -o-linear-gradient(#theme_page_title_background_color_top, #theme_page_title_background_color_bottom);
+    background: linear-gradient(#theme_page_title_background_color_top, #theme_page_title_background_color_bottom);
+    -pie-background: linear-gradient(#theme_page_title_background_color_top, #theme_page_title_background_color_bottom);
+    position: relative;
+    behavior: url(../javascript/PIE.htc);
+}
+.outer_nav{
+    background: #theme_navigation_background_color_top;
+    background: -webkit-gradient(linear, 0 0, 0 bottom, from(#theme_navigation_background_color_top), to(#theme_navigation_background_color_bottom));
+    background: -webkit-linear-gradient(#theme_navigation_background_color_top, #theme_navigation_background_color_bottom);
+    background: -moz-linear-gradient(#theme_navigation_background_color_top, #theme_navigation_background_color_bottom);
+    background: -ms-linear-gradient(#theme_navigation_background_color_top, #theme_navigation_background_color_bottom);
+    background: -o-linear-gradient(#theme_navigation_background_color_top, #theme_navigation_background_color_bottom);
+    background: linear-gradient(#theme_navigation_background_color_top, #theme_navigation_background_color_bottom);    
+    -pie-background: linear-gradient(#theme_navigation_background_color_top, #theme_navigation_background_color_bottom);
+    position: relative;
+    behavior: url(../javascript/PIE.htc);
+}
+
+.outer_account h2 { color:#theme_page_title_text_color;}
+
+.login_sec .button{
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    background: #theme_page_title_button_background_color_top;
+    background: -webkit-gradient(linear, 0 0, 0 bottom, from(#theme_page_title_button_background_color_top), to(#theme_page_title_button_background_color_bottom));
+    background: -webkit-linear-gradient(#theme_page_title_button_background_color_top, #theme_page_title_button_background_color_bottom);
+    background: -moz-linear-gradient(#theme_page_title_button_background_color_top, #theme_page_title_button_background_color_bottom);
+    background: -ms-linear-gradient(#theme_page_title_button_background_color_top, #theme_page_title_button_background_color_bottom);
+    background: -o-linear-gradient(#theme_page_title_button_background_color_top, #theme_page_title_button_background_color_bottom);
+    background: linear-gradient(#theme_page_title_button_background_color_top, #theme_page_title_button_background_color_bottom);
+    -pie-background: linear-gradient(#theme_page_title_button_background_color_top, #theme_page_title_button_background_color_bottom);
+    position: relative;
+    behavior: url(../javascript/PIE.htc);
+}
+
+#nav ul li a{color: #theme_navigation_text_color;}
+#nav ul li a:hover, #nav ul li a.active { color:#theme_navigation_text_active_color;}
+.login_sec .button a { color:#theme_navigation_text_active_color;}
+.login_sec .button a:hover { color:#theme_navigation_text_color;}
+
+a, .common_nav ul li a, .mail_sec p em a, .table_sec td a,
+	.footer p a, .footer p a.blue,
+	.pagination ul li a { color:#theme_link_color;}
+.invoice div.element a { color:#theme_link_settings_color;}
+
+.page { background-color:#theme_page_background_color;}

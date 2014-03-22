@@ -1,0 +1,34 @@
+	<nav class="step_menu">
+		<ul>
+			<li class="active">
+				<a href="<?php echo $this->Html->safe($this->base_uri . "plugin/order/main/index/" . $this->Html->ifSet($order_form->label));?>">
+					<strong><?php $this->_("Main.steps.step_1_name");?></strong>
+					<em><?php $this->_("Main.steps.step_1_description");?></em>
+				</a>
+			</li>
+			<li>
+				<a href="<?php echo $this->Html->safe($this->base_uri . "plugin/order/main/configure/" . $this->Html->ifSet($order_form->label));?>">
+					<strong><?php $this->_("Main.steps.step_2_name");?></strong>
+					<em><?php $this->_("Main.steps.step_2_description");?></em>
+				</a>
+			</li>
+			<li>
+				<a href="<?php echo $this->Html->safe($this->base_uri . "plugin/order/main/review/" . $this->Html->ifSet($order_form->label));?>">
+					<strong><?php $this->_("Main.steps.step_3_name");?></strong>
+					<em><?php $this->_("Main.steps.step_3_description");?></em>
+				</a>
+			</li>
+			<li class="last">
+				<a href="<?php echo $this->Html->safe($this->base_uri . "plugin/order/main/checkout/" . $this->Html->ifSet($order_form->label));?>">
+					<strong><?php $this->_("Main.steps.step_4_name");?></strong>
+					<em><?php $this->_("Main.steps.step_4_description");?></em>
+				</a>
+			</li>
+		</ul>
+	</nav>
+
+<?php
+echo $this->Html->ifSet($message);
+
+echo $content;
+?>

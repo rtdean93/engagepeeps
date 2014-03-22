@@ -1,0 +1,59 @@
+	
+	<div class="heading options">
+		<h5><?php $this->_("Solusvm.tab_client_stats.heading_stats");?></h5>
+	</div>
+	<div class="pad">
+		<ul class="options">
+			<?php
+			$keys = array('bandwidth' => "bandwidth", 'memory' => "memory", 'hdd' => "space");
+			foreach ($keys as $key => $name) {
+				if ($this->Html->ifSet($server->{$key}, false)) {
+					$percent_used = $this->Html->_($server->{$key}['percent_used_' . $name], true);
+			?>
+			<li>
+				<?php $this->_("Solusvm.tab_client_stats." . $name);?>
+				<span class="buff <?php echo $percent_used > 80 ? "offline" : "online";?>"><?php $this->_("Solusvm.tab_client_stats." . $name . "_stats", false, $this->Html->_($server->{$key}['used_' . $name . '_formatted'], true), $this->Html->_($server->{$key}['total_' . $name . '_formatted'], true));?></span>
+				<?php $this->_("Solusvm.tab_client_stats." . $name . "_percent_available", false, $percent_used);?>
+			</li>
+			<?php
+				}
+			}
+			?>
+		</ul>
+	</div>
+	<?php
+	$graph_keys = array("trafficgraph", "loadgraph", "memorygraph");
+	$graphs = false;
+	foreach ($graph_keys as $value) {
+		if ($this->Html->ifSet($server->{$value}, false)) {
+			$graphs = true;
+			break;
+		}
+	}
+	
+	// Display graphs
+	if ($graphs) {
+	?>
+	<div class="heading options space">
+		<h5><?php $this->_("Solusvm.tab_client_stats.heading_graphs");?></h5>
+	</div>
+	<div class="pad">
+		<?php
+		foreach ($graph_keys as $value) {
+			if (!$this->Html->ifSet($server->{$value}, false))
+				continue;
+		?>
+		<p><img src="<?php echo $this->Html->safe($this->Html->ifSet($module_hostname) . $this->Html->ifSet($server->{$value}));?>" /></p>
+		<?php
+		}
+		?>
+	</div>
+	<?php
+	}
+	?>
+	
+<script type="text/javascript">
+$(document).ready(function() {
+	$(this).blestaSetHeadTag("link", {media:"screen", type:"text/css", rel:"stylesheet", href: "<?php echo $this->Html->safe($this->view_dir . "css/styles.css");?>"});
+});
+</script>

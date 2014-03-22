@@ -1,0 +1,141 @@
+		<?php
+		echo $this->Html->ifSet($message);
+		
+		$this->WidgetClient->clear();
+		$this->WidgetClient->renderSubHead(false);
+		$this->WidgetClient->create($this->_("ClientMain.edit.boxtitle_edit", true));
+		
+		$this->Form->create();
+		
+		// Set contact info and phone number partials
+		echo $this->Html->ifSet($contact_info);
+		echo $this->Html->ifSet($phone_numbers);
+		?>
+		<div class="heading">
+			<h5><?php $this->_("ClientMain.edit.heading_billing");?></h5>
+		</div>
+		<div class="pad">
+			<ul>
+				<li>
+					<?php
+					$this->Form->label($this->_("ClientMain.edit.field_taxid", true), "tax_id");
+					$this->Form->fieldText("tax_id", $this->Html->ifSet($vars->settings['tax_id']), array("id"=>"tax_id"));
+					?>
+				</li>
+				<?php
+				// Show currency if enabled
+				if ($this->Html->ifSet($enabled_fields['default_currency'], false)) {
+				?>
+				<li>
+					<?php
+					$this->Form->label($this->_("ClientMain.edit.field_default_currency", true), "default_currency");
+					$this->Form->fieldSelect("default_currency", $this->Html->ifSet($currencies), $this->Html->ifSet($vars->settings['default_currency']), array("id"=>"default_currency"));
+					?>
+				</li>
+				<?php
+				}
+				?>
+				<li>
+					<?php
+					$this->Form->label($this->_("ClientMain.edit.field_invoiceaddress", true), "inv_address_to");
+					$this->Form->fieldSelect("inv_address_to", $this->Html->ifSet($contacts), $this->Html->ifSet($vars->settings['inv_address_to']), array("id"=>"inv_address_to"));
+					?>
+				</li>
+			</ul>
+			<div class="clear"></div>
+		</div>
+		
+		<?php
+		// Show additional settings, if any
+		if ($this->Html->ifSet($show_additional_settings, false)) {
+		?>
+		<div class="heading">
+			<h5><?php $this->_("ClientMain.edit.heading_settings");?></h5>
+		</div>
+		<div class="pad">
+			<ul>
+				<?php
+				// Show language if enabled
+				if ($this->Html->ifSet($enabled_fields['language'], false)) {
+				?>
+				<li>
+					<?php
+					$this->Form->label($this->_("ClientMain.edit.field_language", true), "language");
+					$this->Form->fieldSelect("language", $this->Html->ifSet($languages), $this->Html->ifSet($vars->settings['language']), array("id"=>"language"));
+					?>
+				</li>
+				<?php
+				}
+				
+				// Set custom fields partial
+				echo $this->Html->ifSet($custom_fields);
+				?>
+			</ul>
+			<div class="clear"></div>
+		</div>
+		<?php
+		}
+		?>
+		
+		<div id="change_password">
+			<div class="password_link">
+				<div class="pad">
+					<h6><a href="#"><?php $this->_("ClientMain.edit.link_change_password");?></a></h6>
+				</div>
+			</div>
+			<div class="new_password">
+				<div class="heading">
+					<h5><?php $this->_("ClientMain.edit.heading_password");?></h5>
+				</div>
+				<div class="pad">
+					<ul>
+						<li>
+							<?php
+							$this->Form->label($this->_("ClientMain.edit.field_username", true), "username");
+							$this->Html->_($username);
+							?>
+						</li>
+						<li>
+							<?php
+							$this->Form->label($this->_("ClientMain.edit.field_current_password", true), "current_password");
+							$this->Form->fieldPassword("current_password", array("id"=>"current_password"));
+							?>
+						</li>
+						<li>
+							<?php
+							$this->Form->label($this->_("ClientMain.edit.field_new_password", true), "new_password");
+							$this->Form->fieldPassword("new_password", array("id"=>"new_password"));
+							?>
+						</li>
+						<li>
+							<?php
+							$this->Form->label($this->_("ClientMain.edit.field_confirm_password", true), "confirm_password");
+							$this->Form->fieldPassword("confirm_password", array("id"=>"confirm_password"));
+							?>
+						</li>
+					</ul>
+					<div class="clear"></div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="button_row">
+			<div class="btn submit right_btn"><a class="submit" href="#"><?php $this->_("ClientMain.edit.field_editsubmit");?></a></div>
+		</div>
+		<?php
+		$this->Form->end();
+		
+		$this->Javascript->setInline('
+			$(document).ready(function() {
+				$("#change_password .new_password").hide();
+				
+				$("#change_password .password_link").click(function() {
+					$(this).hide();
+					$("#change_password .new_password").show();
+					return false;
+				});
+			});
+		');
+		
+		$this->WidgetClient->end();
+		?>

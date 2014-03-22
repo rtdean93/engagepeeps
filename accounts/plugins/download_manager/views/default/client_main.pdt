@@ -1,0 +1,72 @@
+						
+						<?php
+						echo $this->Html->ifSet($message);
+						
+						$this->WidgetClient->clear();
+						$this->WidgetClient->setStyleSheet($this->view_dir . "css/styles.css");
+						$this->WidgetClient->renderSubHead(false);
+						$this->WidgetClient->create($this->_("ClientMain.index.boxtitle_downloads", true), array('id'=>"download_manager_client_main"), $this->Html->ifSet($render_section, null));
+						
+						$category_name = (isset($category->name) ? $category->name : null);
+						?>
+						<div class="heading first">
+							<h5><?php echo $this->Html->ifSet($category_name, $this->_("ClientMain.!text.root_directory", true));?></h5>
+						</div>
+						
+						<div class="pad">
+							<?php
+							if (!empty($category->description)) {
+								echo $this->TextParser->encode("markdown", $this->Html->_($category->description, true));
+							}
+							
+							// Set a link to go back a directory
+							if (!empty($category)) {
+							?>
+							<div id="up_directory" class="clear">
+								<a href="<?php echo $this->Html->safe($this->base_uri . "plugin/download_manager/client_main/index/" . $this->Html->ifSet($parent_category->id));?>"><?php $this->_("ClientMain.index.go_back");?></a>
+							</div>
+							<?php
+							}
+							
+							if (!empty($categories) || !empty($files)) {
+							?>
+								<dl id="downloads">
+									<div>
+										<?php
+										foreach ($this->Html->ifSet($categories, array()) as $category) {
+										?>
+										<dd>
+											<div class="category">
+												<a href="<?php echo $this->Html->safe($this->base_uri . "plugin/download_manager/client_main/index/" . $this->Html->ifSet($category->id) . "/");?>"><?php $this->Html->_($category->name);?></a>
+											</div>
+										</dd>
+										<?php
+										}
+										foreach ($this->Html->ifSet($files, array()) as $file) {
+										?>
+										<dd>
+											<div class="file">
+												<a href="<?php echo $this->Html->safe($this->base_uri . "plugin/download_manager/client_main/download/" . $this->Html->ifSet($file->id) . "/");?>"><?php $this->Html->_($file->name);?></a>
+											</div>
+										</dd>
+										<?php
+										}
+										?>
+									</div>
+								</dl>
+							<?php
+							}
+							else {
+							?>
+								<div class="table_sec">
+									<div class="empty_section">
+										<div class="empty_box"><?php $this->_("ClientMain.index.no_downloads");?></div>
+									</div>
+								</div>
+							<?php
+							}
+							?>
+						</div>
+						<?php
+						$this->WidgetClient->end();
+						?>

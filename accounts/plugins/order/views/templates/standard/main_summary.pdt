@@ -1,0 +1,288 @@
+	<aside class="right_sec">
+		<h3><?php $this->_("Main.summary.box_heading");?></h3>
+		<?php
+		if (!$this->Html->ifSet($client)) {
+		?>
+		<div id="login_section">
+			<em><?php $this->_("Main.summary.login_link");?></em>
+			
+			<section class="content login">
+				<?php
+				$this->Form->create($this->base_uri . "plugin/order/login/", array('id' => "order_login"));
+				?>
+					<div id="login_message"></div>
+				
+					<ul>
+						<li class="last">
+							<label><?php $this->_("Main.summary.field_username");?></label>
+							<input type="text" name="username" value="" />
+							<label><?php $this->_("Main.summary.field_password");?></label>
+							<input type="password" name="password" value="" />
+						</li>
+						<li class="last">
+							<input type="submit" name="login" value="<?php $this->_("Main.summary.login_btn");?>" class="submit-btn" />
+						</li>
+					</ul>
+				<?php
+				$this->Form->end();
+				?>
+			</section>
+		</div>
+		<?php
+		}
+		?>
+		<section class="content">
+			<ul>
+				<?php
+				foreach ($this->Html->ifSet($summary['cart']['items'], array()) as $item) {
+					$price = null;
+					$term = null;
+					if (!isset($item['qty']))
+						$item['qty'] = 1;
+					$item['qty'] = $this->Html->safe($item['qty']);
+					foreach ($item['package']->pricing as $pricing) {
+						if ($pricing->id == $item['pricing_id']) {
+							$price = $pricing;
+							
+							if ($this->Html->ifSet($price->period) == "onetime")
+								$term = $this->Html->ifSet($periods[$price->period]);
+							else {
+								$term = $this->Html->_($price->term, true);
+								$term = $this->Html->safe($this->Html->concat(" ", $term, ($term == 1 ? $this->Html->ifSet($periods[$price->period]) : $this->Html->ifSet($periods[$price->period . "_plural"]))));
+							}
+							break;
+						}
+					}
+				?>
+				<li>
+					<div class="primary">
+						<h3><?php $this->Html->_($item['package']->name);?></h3> 
+						<em><?php $this->Html->_($item['service_name']);?></em>
+						<p><?php $this->_("Main.summary.item_price", false, $term, $this->CurrencyFormat->format($price->price, $price->currency), $item['qty']);?></p>
+						<a href="<?php echo $this->Html->safe($this->base_uri . "plugin/order/main/remove/" . $this->Html->ifSet($order_form->label) . "/?item=" . $this->Html->ifSet($item['index']));?>" class="cross_btn"><img src="<?php echo $this->view_dir;?>images/cross_btn.jpg" alt="cross_btn" /></a>
+					</div>
+					
+					<?php
+					if ($this->Html->ifSet($item['package_options']) && $this->Html->ifSet($item['configoptions'])) {
+						foreach ($item['package_options'] as $option) {
+							if (array_key_exists($option->id, $item['configoptions'])) {
+								$qty = $this->Html->safe($option->type == "quantity" ? $item['configoptions'][$option->id] : 1);
+						?>
+							<div class="addon">
+								<h3><?php $this->Html->_($option->label);?></h3>
+								<p><?php $this->_("Main.summary.item_option_price", false, $this->Html->ifSet($option->selected_value_name), $this->CurrencyFormat->format($option->price->price, $option->price->currency), $qty);?></p>
+							</div>
+						<?php
+							}
+						}
+						unset($option);
+					}
+					?>
+					
+					<?php
+					if (isset($item['addons'])) {
+						foreach ($item['addons'] as $addon) {
+							$price = null;
+							$term = null;
+							if (!isset($addon['qty']))
+								$addon['qty'] = 1;
+							foreach ($addon['package']->pricing as $pricing) {
+								if ($pricing->id == $addon['pricing_id']) {
+									$price = $pricing;
+									
+									if ($this->Html->ifSet($price->period) == "onetime")
+										$term = $this->Html->ifSet($periods[$price->period]);
+									else {
+										$term = $this->Html->_($price->term, true);
+										$term = $this->Html->safe($this->Html->concat(" ", $term, ($term == 1 ? $this->Html->ifSet($periods[$price->period]) : $this->Html->ifSet($periods[$price->period . "_plural"]))));
+									}
+									break;
+								}
+							}
+					?>
+					<div class="addon">
+						<h3><?php $this->Html->_($addon['package']->name);?></h3> 
+						<em><?php $this->Html->_($addon['service_name']);?></em>
+						<p><?php $this->_("Main.summary.item_price", false, $term, $this->CurrencyFormat->format($price->price, $price->currency), $addon['qty']);?></p>
+						<a href="<?php echo $this->Html->safe($this->base_uri . "plugin/order/main/remove/" . $this->Html->ifSet($order_form->label) . "/?item=" . $this->Html->ifSet($addon['index']));?>" class="cross_btn"><img src="<?php echo $this->view_dir;?>images/cross_btn.jpg" alt="cross_btn" /></a>
+					</div>
+					
+					<?php
+					if ($this->Html->ifSet($addon['package_options']) && $this->Html->ifSet($addon['configoptions'])) {
+						foreach ($item['package_options'] as $option) {
+							if (array_key_exists($option->id, $addon['configoptions'])) {
+								$qty = $this->Html->safe($option->type == "quantity" ? $addon['configoptions'][$option->id] : 1);
+						?>
+							<div class="addon">
+								<h3><?php $this->Html->_($option->label);?></h3>
+								<p><?php $this->_("Main.summary.item_option_price", false, $this->Html->ifSet($option->selected_value_name), $this->CurrencyFormat->format($option->price->price, $option->price->currency), $qty);?></p>
+							</div>
+						<?php
+							}
+						}
+						unset($option);
+					}
+					?>
+					
+					<?php
+						}
+					}					
+					?>
+				</li>
+				<?php
+				}
+				?>
+				<li class="last">
+					<div class="totals">
+						<div class="sub_total_box fixed">
+						<?php
+						if ($this->Html->ifSet($summary['totals'])) {
+						?>
+							<div class="row">
+								<span><?php $this->_("Main.summary.totals.subtotal");?></span>
+								<strong><em><?php $this->Html->_($summary['totals']['subtotal']['amount_formatted']);?></em></strong>
+							</div>
+							<?php
+							if ($this->Html->ifSet($summary['totals']['fees']['setup'])) {
+							?>
+							<div class="row">
+								<span><?php $this->_("Main.summary.totals.setup_fee");?></span>
+								<em><?php $this->Html->_($summary['totals']['fees']['setup']['amount_formatted']);?></em>
+							</div>
+							<?php
+							}
+							if ($this->Html->ifSet($summary['totals']['discount']['amount'])) {
+							?>
+							<div class="row">
+								<span><?php $this->_("Main.summary.totals.discount");?></span>
+								<em><?php $this->Html->_($summary['totals']['discount']['amount_formatted']);?></em>
+							</div>
+							<?php
+							}
+							if ($this->Html->ifSet($summary['totals']['tax'])) {
+								foreach ($summary['totals']['tax'] as $tax) {
+							?>
+								<div class="row">
+									<span><?php $this->_("Main.summary.totals.tax", false, $tax['name'], $tax['percentage']);?></span>
+									<em><?php $this->Html->_($tax['amount_formatted']);?></em>
+								</div>
+							<?php
+								}
+							}
+							?>
+							<div class="row total">
+								<span><?php $this->_("Main.summary.totals.total");?></span>
+								<strong><em><?php $this->Html->_($summary['totals']['total_w_tax']['amount_formatted']);?></em></strong>
+							</div>
+						<?php
+						}
+						?>
+						</div>
+						<?php
+						if ($this->Html->ifSet($order_form->allow_coupons) == "1") {
+						?>
+						<span><a href="#" class="coupon_link"><?php $this->_("Main.summary.have_coupon");?></a></span>
+						
+						<section class="coupon">
+							<div id="coupon_message"></div>
+							<?php
+							$this->Form->create($this->Html->ifSet($this->base_uri) . "plugin/order/main/applycoupon/" . $this->Html->ifSet($order_form->label), array('id' => "applycoupon"));
+							?>
+							<ul>
+								<li class="last">
+									<?php
+									$this->Form->label($this->_("Main.summary.coupon", true), "coupon");
+									$this->Form->fieldText("coupon", $this->Html->ifSet($summary['cart']['coupon']), array('id' => "coupon"));
+									?>
+									<input type="submit" name="login" value="<?php $this->_("Main.summary.coupon_btn");?>" class="submit-btn" />
+								</li>
+							</ul>
+							<?php
+							$this->Form->end();
+							?>
+						</section>
+						<?php
+						}
+						?>
+					</div>
+					<?php
+					$this->Form->setCsrfOptions(array('set_on_create' => false));
+					$this->Form->create(null, array('method' => "GET"));
+					$this->Form->fieldSelect("currency", $this->Form->collapseObjectArray($order_form->currencies, "currency", "currency"), $this->Html->ifSet($summary['cart']['currency']), array('class' => "small", 'id' => "change_currency"));
+					$this->Form->end();
+					$this->Form->setCsrfOptions(array('set_on_create' => true));
+					?>
+					
+					<?php
+					if (!empty($summary['cart']['items'])) {
+						$this->Form->setCsrfOptions(array('set_on_create' => false));
+						$this->Form->create($this->base_uri . "plugin/order/main/checkout/" . $this->Html->ifSet($order_form->label), array('method' => "GET"));
+						$this->Form->fieldSubmit("checkout", $this->_("Main.summary.checkout_btn", true), array('class' => "submit-btn"));
+						$this->Form->end();
+						$this->Form->setCsrfOptions(array('set_on_create' => true));
+					}
+					?>
+				</li>
+			</ul>
+		</section>
+		<script type="text/javascript">
+		
+			// Process change currency request
+			$("#change_currency").change(function() {
+				$(this).closest("form").submit();
+			});
+		
+			// Process login request
+			$("#order_login").submit(function(event) {
+				$(this).blestaRequest('POST', '<?php echo $this->Html->safe($this->base_uri . "plugin/order/login/");?>', $(this).serialize(),
+					function(data) {
+						if (data.error)
+							$("#login_message").html(data.error);
+						else
+							$("#login_section").hide();
+					},
+					null,
+					{dataType: 'json'}
+				);
+				
+				event.preventDefault();
+			});
+		
+			$("a.login_link").click(function(event) {
+				$(".content.login").slideToggle();
+				event.preventDefault();
+			});
+			
+			if ('' == '<?php $this->Html->_($summary['cart']['coupon']);?>')
+				$("section.coupon").hide();
+			$("a.coupon_link").click(function(event) {
+				$("section.coupon").slideToggle();
+				event.preventDefault();
+			});
+			
+			$("#applycoupon").submit(function(event) {
+				$(this).blestaRequest('POST', $(this).attr('action'), $(this).serialize(),
+					function(data) {
+						if (data.error)
+							$("#coupon_message").html(data.error);
+						else {
+							var success_message = (data.success ? data.success : "");
+							
+							$(this).blestaRequest('GET', '<?php echo $this->Html->safe($this->base_uri . "plugin/order/main/summary/" . $this->Html->ifSet($order_form->label));?>', null,
+								function(data) {
+									$("aside.right_sec").replaceWith(data);
+									
+									if (success_message.length > 0)
+										$("#coupon_message").html(success_message);
+								}
+							);
+						}
+					},
+					null,
+					{dataType: 'json'}
+				);
+				
+				event.preventDefault();
+			});
+		</script>
+	</aside>

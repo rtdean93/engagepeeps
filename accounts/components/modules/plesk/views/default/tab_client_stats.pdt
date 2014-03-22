@@ -1,0 +1,94 @@
+	
+	
+	<div class="heading options space">
+		<h5><?php $this->_("Plesk.tab_client_stats.info_title");?></h5>
+	</div>
+	<div class="pad">
+		<div class="table_sec">
+			<table class="table">
+				<thead>
+					<tr class="head">
+						<td style="width: 50%;"><?php $this->_("Plesk.tab_client_stats.info_heading.field");?></td>
+						<td class="last"><?php $this->_("Plesk.tab_client_stats.info_heading.value");?></td>
+					</tr>
+				</thead>
+				<tbody>
+					<?php
+					$keys = array("domain", "ip_address");
+					foreach ($keys as $i => $key) {
+						if (array_key_exists($key, $stats->account_info)) {
+						?>
+						<tr<?php echo $this->Html->concat(" ", ($i%2 == 1) ? " class=\"odd_row\"" : "", "");?>>
+							<td><?php $this->_("Plesk.tab_client_stats.info." . $key);?></td>
+							<td><?php $this->Html->_($stats->account_info[$key]);?></td>
+						</tr>
+						<?php
+						}
+					}
+					?>
+				</tbody>
+			</table>
+		</div>
+		<div class="clear"></div>
+	</div>
+	
+	<div class="heading options space">
+		<h5><?php $this->_("Plesk.tab_client_stats.usage_title");?></h5>
+	</div>
+	<div class="pad">
+		<div id="graph_bandwidth" style="float: left; width: 50%;"></div>
+		<div id="graph_disk" style="float: left; width: 50%;"></div>
+	</div>
+	
+<!--[if lt IE 9]><script type="text/javascript" src="<?php echo $this->Html->safe(VENDORWEBDIR . "jqplot/excanvas.min.js");?>"></script><![endif]-->
+<script type="text/javascript" src="<?php echo $this->Html->safe(VENDORWEBDIR . "jqplot/jquery.jqplot.min.js");?>"></script>
+<script type="text/javascript" src="<?php echo $this->Html->safe(VENDORWEBDIR . "jqplot/plugins/jqplot.pieRenderer.min.js");?>"></script>
+
+<script type="text/javascript">
+	$(document).blestaSetHeadTag("link", {media:"screen", type:"text/css", rel:"stylesheet", href: "<?php echo $this->Html->safe(VENDORWEBDIR . "jqplot/jquery.jqplot.min.css");?>"});
+	
+	$(document).ready(function() {
+		<?php
+		// Make the graph completely free for unlimited disk/bandwidth
+		$graph_data = array(
+			'bandwidth_used' => ($stats->bandwidth_usage['unused'] === null ? 0 : $stats->bandwidth_usage['used']),
+			'bandwidth_unused' => ($stats->bandwidth_usage['unused'] === null ? 1 : $stats->bandwidth_usage['unused']),
+			'disk_used' => ($stats->disk_usage['unused'] === null ? 0 : $stats->disk_usage['used']),
+			'disk_unused' => ($stats->disk_usage['unused'] === null ? 1 : $stats->disk_usage['unused']),
+		);
+		?>
+		var bandwidth_data = [
+			['<?php echo $this->Html->safe($this->_("Plesk.tab_client_stats.bandwidth_heading.used", true, $stats->bandwidth_usage['used_formatted']));?>', <?php echo $this->Html->safe($graph_data['bandwidth_used']);?>],
+			['<?php echo $this->Html->safe($this->_("Plesk.tab_client_stats.bandwidth_heading.unused", true, $stats->bandwidth_usage['unused_formatted']));?>', <?php echo $this->Html->safe($graph_data['bandwidth_unused']);?>],
+		];
+		var disk_data = [
+			['<?php echo $this->Html->safe($this->_("Plesk.tab_client_stats.disk_heading.used", true, $stats->disk_usage['used_formatted']));?>', <?php echo $this->Html->safe($graph_data['disk_used']);?>],
+			['<?php echo $this->Html->safe($this->_("Plesk.tab_client_stats.disk_heading.unused", true, $stats->disk_usage['unused_formatted']));?>', <?php echo $this->Html->safe($graph_data['disk_unused']);?>],
+		];
+		
+		var bandwidth = plotGraph('graph_bandwidth', [bandwidth_data], '<?php echo $this->Html->safe($this->_("Plesk.tab_client_stats.bandwidth_title", true));?>');
+		var disk = plotGraph('graph_disk', [disk_data], '<?php echo $this->Html->safe($this->_("Plesk.tab_client_stats.disk_title", true));?>');
+		
+		function plotGraph(name, data, title) {
+			return $.jqplot(name, data, {
+				seriesColors: ["#a80000", "#6ab31d"],
+				title: title,
+				seriesDefaults: {
+					renderer: $.jqplot.PieRenderer,
+					rendererOptions: {
+						showDataLabels: true
+					}
+				},
+				legend: {
+					show: true,
+					location: 'ne'
+				},
+				grid: {
+					background: '#ffffff',
+					borderWidth: 0,
+					shadow: false
+				}
+			});
+		}
+	});
+</script>

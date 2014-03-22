@@ -1,0 +1,153 @@
+.order .page .left_sec{float: left; width: 680px;}
+
+.step_menu{float: left; width: 959px; border: 1px solid #dcdcdc; padding: 3px 0 4px; margin-bottom: 14px;}
+.step_menu ul{float: left; width: 100%;}
+.step_menu ul li{float: left; width: auto; padding-left: 15px;}
+.step_menu ul li a{float: left; width: 224px; height: 57px; background: url(../images/arrow01.png) no-repeat right center;}
+.step_menu ul li a:hover strong{color: inherit;}
+.step_menu ul li.active a strong{color: inherit;}
+.step_menu ul li.last a{background: none;}
+.step_menu ul li a strong{display: block; margin-top: 12px; font: bold 14px/16px Verdana,Arial,Helvetica,sans-serif; color: #7e7e7e;}
+.step_menu ul li a em{display: block; font: italic 12px/14px Verdana,Arial,Helvetica,sans-serif; color: #b1b1b1;}
+
+.order .details_sec .content {
+    padding-left: 14px;
+	float: none;
+}
+.order .details_sec .row {
+    margin-top: 11px;
+    padding-left: 3px;
+}
+.order .details_sec .row.first {
+    margin-top: 17px;
+}
+.order .details_sec .row label {
+    color: #797979;
+    display: block;
+    font: bold 12px/18px Verdana,Arial,Helvetica,sans-serif;
+    padding-bottom: 3px;
+}
+
+.details_sec h4 {font: 14px/20px Verdana,Arial,Helvetica,sans-serif; color: #575757; padding-top: 12px;}
+.order .details_sec ul li .aside_sec{float: right; width: 290px; border: 0;}
+.order .details_sec ul li.last {padding-bottom: 20px;}
+.order .details_sec .row label.inline {display: inline;}
+
+.order .page .right_sec{float: right; width: 265px; border: 1px solid #dedede; background: #fff;}
+.order .page .right_sec h3{font: bold 12px/39px Verdana,Arial,Helvetica,sans-serif; color: #575757; text-indent: 15px;}
+.order .page .right_sec em{display: block; text-indent: 16px; font: italic 12px/38px Verdana,Arial,Helvetica,sans-serif; color: #616161; border-bottom: 1px solid #f0f0f0; background: #ffffde url(../images/shadow02.jpg) repeat-x 0 0;}
+.order .page .right_sec .content{float: left; width: 251px; padding-left: 7px;}
+.order .page .right_sec ul{float: left; width: 100%;}
+.order .page .right_sec .login ul{border-bottom: 1px solid #f0f0f0;}
+.order .page .right_sec ul li{float: left; width: 221px; padding: 10px 21px 14px 9px; border-bottom: 1px solid #e4e4e4; position: relative;}
+.order .page .right_sec ul li h3{text-indent: 0; line-height: 14px; background: none;}
+.order .page .right_sec ul li em{text-indent: 0; line-height: 14px; background: none; border: 0;}
+.order .page .right_sec ul li p{font: 12px/14px Verdana,Arial,Helvetica,sans-serif; color: #616161;}
+/*.order .page .right_sec ul li .cross_btn{position: absolute; bottom: 12px; right: 8px; width: 13px; height: 12px;}*/
+.order .page .right_sec ul li .cross_btn{position: absolute; bottom: 0; right: -15px; width: 13px; height: 12px;}
+.order .page .right_sec ul li.last{border-bottom: 0; width: 234px; padding-right: 8px; padding-bottom: 16px;}
+.order .page .right_sec .coupon ul li.last{padding-left: 0px;}
+/*.order .page .right_sec .totals .col{float: left; width: 120px;}*/
+/*.order .page .right_sec .totals .col.second{float: right; width: 100px;}*/
+.order .page .right_sec .totals span{display: block;}
+/*.order .page .right_sec .totals .col span{text-align: right; font: 12px/14px Verdana,Arial,Helvetica,sans-serif; color: #616161;}*/
+.order .page .right_sec .totals .sub_total_box span{text-align: right; font: 12px/14px Verdana,Arial,Helvetica,sans-serif; color: #616161;}
+.order .page .right_sec .totals .sub_total_box .row.total {border-top: none; margin: 0px; padding: 0px;}
+.order .page .right_sec .totals .sub_total_box em {font-style:normal; font-weight: inherit;}
+.order .page .right_sec a{font: bold 12px/14px Verdana,Arial,Helvetica,sans-serif;}
+.order .page .right_sec a:hover{text-decoration: underline;}
+.order .page .right_sec .totals a{line-height: 35px;}
+.order .page .right_sec form .submit-btn{width: auto; height: 19px; padding: 0px 12px; margin-top: 3px; text-transform: uppercase;}
+.order .page .right_sec form input[type="text"],
+.order .page .right_sec form input[type="password"] {width: 220px;}
+.order .submit-btn {text-transform: uppercase;}
+
+.order .page .right_sec .content.login {display: none;}
+
+.order .button_row .submit-btn {margin: 0px 15px 0px 0px; width: auto; padding: 0 20px; height: 29px; border-radius: 20px 20px 20px 20px;}
+
+.order .message_box {margin: 0px 0px 14px;}
+.order .message_box ul li {margin: 0px;}
+.order .page .right_sec .message_box ul li{width: 200px;}
+.order .page .right_sec .message_box ul li a.cross_btn{line-height:13px; top:5px; right:5px; text-decoration:none;}
+
+.order h3{background: #fff; font: bold 14px/18px Verdana,Arial,Helvetica,sans-serif; color: #575757;}
+.order .content_section .inner .pad ul {padding: 0px 10px 0px;}
+
+
+/*.order .content ul{float: left; width: 100%;}*/
+.order .inner .pad.content ul li{border-bottom: 1px solid #e4e4e4; padding-bottom: 7px; margin-bottom: 20px;}
+.order .inner .pad.content ul li.last{border-bottom: none; padding-bottom: 0; margin-bottom: 0px;}
+.order .inner .pad.content ul.no_border li {border: none; margin-bottom: 11px; padding: 0px;}
+.order .inner .pad.content ul.no_border {padding-top: 10px;}
+.order .inner .pad.content ul.domain_check {text-align: center;}
+
+.order .inner .pad.content ul li ul li {border-bottom:none; margin-bottom:0; list-style:disc; list-style-position:inside;}
+.order .inner .pad.content ul li ol {padding:0;}
+.order .inner .pad.content ul li ol li {border-bottom:none; margin-bottom:0; list-style-position:inside;}
+/*.order .inner .pad.content ul.no_border li label {font: bold 11px/16px Verdana,Arial,Helvetica,sans-serif;}*/
+/*
+.order .content ul li h3{border-bottom: 0; text-indent: 0; line-height: 18px;}
+.order .content ul li p{font: 12px/19px Verdana,Arial,Helvetica,sans-serif; color: #797979;}
+*/
+.order .content ul li .radios{float: left; width: 355px; margin-top: 15px;}
+.order .content .radio_btn{float: left; padding-right: 11px;}
+.order .content .radio_btn input{float: left; width: 13px; height: 13px; margin: 0; margin-right: 7px;}
+.order .content .radio_btn span{float: left; font: 12px/13px Arial,Helvetica,sans-serif; color: #484848;}
+.order .right_sec .content form {float: none; width: auto; display: inline;}
+.submit-btn{float: right; width: 70px; height: 19px; border: 1px solid #c5c5c5; padding: 0; margin: 10px 2px 0 8px; display: inline; cursor: pointer; font: bold 10px/19px Verdana,Arial,Helvetica,sans-serif; color: #6e6e6e; text-align: center; padding-bottom: 3px;}
+.order ul li .aside_sec .rate{float: right; width: auto; font: 14px/18px Verdana,Arial,Helvetica,sans-serif; color: #bc2222;}
+.order ul li .aside_sec .rate strong{font-size: 30px; line-height: 30px; font-weight: normal;}
+.order ul li textarea{width:100%; height:75px; border: 1px solid #e3e3eb;}
+.content_section .payment_gateway div {float: none; text-align: center; margin: 0 auto;}
+
+.content_section .heading.options.message {height: auto;}
+.content_section .login_form.option_section .heading.options {float:left; width:100%}
+
+ul.domain_check li input[type="text"] {font: normal 18px/20px Arial,Helvetica,sans-serif; width: 350px; height: 30px; margin-bottom: 10px;}
+
+h2.available {color: #8dc24a; text-align: center; font-size: 22px; line-height: normal; margin-bottom: 15px; margin-top: 15px;}
+h2.unavailable {color: #ce2222; text-align: center; font-size: 22px; line-height: normal; margin-bottom: 15px; margin-top: 15px;}
+
+.group_container { float:left; width:100%; }
+.group_container h4 { float:none; padding:10px 0 10px 3px; font:bold 11px Verdana; }
+.group_container div.row { padding-left:10px; }
+
+.addon { width: 100%; padding-top: 10px; border-top: 1px dashed #eee; margin-top: 10px; display: inline-block; position: relative;}
+.primary { position: relative; }
+
+/*.details_sec.details .radios{float: left; width: 646px; padding-left: 4px; margin-top: 25px; padding-bottom: 12px; border-bottom: 1px solid #e4e4e4;}*/
+
+/*
+.details_sec{float: left; width: 100%; margin-top: 14px; background: #fff;}
+.details_sec h3{background: #fff; font: bold 14px/41px Verdana,Arial,Helvetica,sans-serif; color: #575757; text-indent: 17px;}
+.details_sec .content{float: left; width: 100%; padding-bottom: 15px; background: url(../images/services_bg.png) repeat-x  0 0;}
+.details_sec .content ul{float: left; width: 100%;}
+.details_sec ul li{float: left; width: 646px; padding: 20px 0 7px 4px; border-bottom: 1px solid #e4e4e4;}
+.details_sec ul li.last{border-bottom: none; padding-bottom: 0;}
+.details_sec ul li h3{border-bottom: 0; text-indent: 0; line-height: 18px;}
+.details_sec ul li p{font: 12px/19px Verdana,Arial,Helvetica,sans-serif; color: #797979;}
+.details_sec ul li .radios{float: left; width: 355px; margin-top: 15px;}
+.details_sec .radio_btn{float: left; padding-right: 11px;}
+.details_sec .radio_btn input{float: left; width: 13px; height: 13px; margin: 0; margin-right: 7px;}
+.details_sec .radio_btn span{float: left; font: 12px/13px Arial,Helvetica,sans-serif; color: #484848;}
+.submit-btn{float: right; width: 70px; height: 19px; border: 1px solid #c5c5c5; padding: 0; margin: 10px 2px 0 8px; display: inline; cursor: pointer; font: bold 10px/19px Verdana,Arial,Helvetica,sans-serif; color: #6e6e6e; text-align: center; padding-bottom: 3px;}
+.details_sec ul li .aside_sec .rate{float: right; width: auto; font: 14px/18px Verdana,Arial,Helvetica,sans-serif; color: #bc2222;}
+.details_sec ul li .aside_sec .rate strong{font-size: 30px; line-height: 30px; font-weight: normal;}
+.details_sec.details .radios{float: left; width: 646px; padding-left: 4px; margin-top: 25px; padding-bottom: 12px; border-bottom: 1px solid #e4e4e4;}
+*/
+
+/*
+.details_sec .row{float: left; width: 647px; padding-left: 3px; margin-top: 11px;}
+.details_sec .row.first{margin-top: 17px;}
+.details_sec .row label{display: block; font: bold 12px/18px Verdana,Arial,Helvetica,sans-serif; color: #797979; padding-bottom: 3px;}
+.details_sec .row .text_box{float: left; width: 237px; height: 20px; border: 1px solid #e3e3eb; padding: 0 5px; font: normal 12px/20px Arial,Helvetica,sans-serif; color: #000;}
+.details_sec .row .text_box.small{width: 149px;}
+select{float: left; width: 156px; height: 22px; border: 1px solid #e3e3eb; padding: 0; background: #fff; font: normal 12px/22px Arial,Helvetica,sans-serif; color: #000;}
+select.big{width: 245px;}
+select.small{width: 51px;}
+*/
+
+/*
+.details_sec .row .submit-btn{width: 98px; height: 27px; line-height: 27px; display: inline; margin-right: 2px; margin-top: 9px; padding-bottom: 0;}
+*/

@@ -1,0 +1,95 @@
+                    <aside class="left_content">
+                        <section class="left_content_top">
+							<section class="left_head">
+								<h5><?php $this->_("ClientMain.myinfo.boxtitle_client");?></h5>
+							</section>
+							<section class="contant_info">
+								<div class="persnal_info">
+									<p><small><?php echo $this->Html->_($client->first_name, true) . " " . $this->Html->_($client->last_name, true);?></small><br />
+										<?php
+										echo (!empty($client->company) ? $this->Html->_($client->company, true) . "<br />" : "");
+										echo (!empty($client->address1) ? $this->Html->_($client->address1, true) . "<br />" : "");
+										echo (!empty($client->address2) ? $this->Html->_($client->address2, true) . "<br />" : "");
+										echo (!empty($client->city) ? $this->Html->_($client->city, true) . (!empty($client->state) ? ", " . $this->Html->_($client->state, true) : "") : $this->Html->_($client->state, true));
+										echo " " . $this->Html->_($client->zip, true) . " " . $this->Html->_($client->country, true);
+										?>
+									</p>
+									<p><?php $this->_("ClientMain.myinfo.client_id", false, $this->Html->ifSet($client->id_code));?></p>
+								</div>
+								<div class="mail_sec">
+									<p><em><a href="mailto:<?php $this->Html->_($client->email);?>"><?php $this->Html->_($client->email);?></a></em><br />
+									<?php
+									// Display client phone numbers
+									if ($this->Html->ifSet($client->numbers, false) && ($num_numbers = count($client->numbers)) > 0) {
+									?>
+									<p>
+										<?php
+										for ($i=0; $i<$num_numbers; $i++) {
+											$this->Html->_($client->numbers[$i]->number);?> (<?php echo ucfirst($this->Html->_($client->numbers[$i]->location, true)) . " " . ucfirst($this->Html->_($client->numbers[$i]->type, true));?>)
+											<br />
+										<?php
+										}
+										?>
+									</p>
+									<?php
+									}
+									?>
+								</div>
+								<div class="modify_sec">
+									<div class="btn small_btn">
+										<a href="<?php echo $this->Html->safe($this->base_uri . "main/edit/");?>"><?php $this->_("ClientMain.myinfo.link_editclient");?></a>
+									</div>
+								</div>
+							</section>
+                        </section>
+						<section class="settings">
+							<div class="invoice">
+								<div class="element">
+									<p><?php $this->Html->_($myinfo_settings['invoice']['description']);?> <a href="<?php echo $this->Html->safe($this->base_uri . "main/invoicemethod/");?>"><?php $this->_("ClientMain.myinfo.setting_change");?></a></p>
+								</div>
+								<?php
+								if ($this->Html->ifSet($myinfo_settings['autodebit']['enabled'], false)) {
+								?>
+								<div class="element">
+									<p><?php $this->Html->_($myinfo_settings['autodebit']['description']);?> <a href="<?php echo $this->Html->safe($this->base_uri . "accounts/");?>"><?php $this->_("ClientMain.myinfo.setting_change");?></a></p>
+								</div>
+								<?php
+								}
+								?>
+							</div>
+							<div class="amounts"></div>
+						</section>
+						<?php
+						/*
+                        <section class="action">
+                            <h5><?php $this->_("ClientMain.myinfo.actions_title");?></h5>
+                            <ul class="listing">
+                                <li><a href="<?php echo $this->Html->safe($this->base_uri . "pay/");?>"><?php $this->_("ClientMain.myinfo.actionlink_makepayment");?></a></li>
+                                <li><a href="<?php echo $this->Html->safe($this->base_uri . "accounts/add/");?>"><?php $this->_("ClientMain.myinfo.actionlink_addaccount");?></a></li>
+                                <li><a href="<?php echo $this->Html->safe($this->base_uri . "contacts/add/");?>"><?php $this->_("ClientMain.myinfo.actionlink_addcontact");?></a></li>
+                                <li><a href="#"><?php $this->_("ClientMain.myinfo.actionlink_openticket");?></a></li>
+                            </ul>
+                        </section>
+						*/
+						?>
+                    </aside>
+		<?php
+		$this->Javascript->setInline('
+			$(document).ready(function() {
+				fetchCurrencyAmounts("' . $this->Html->ifSet($client->settings['default_currency']) . '");
+				$(".settings .amounts .currencies a").live("click", function() {
+					fetchCurrencyAmounts($(this).attr("id"));
+					return false;
+				});
+			});
+			
+			function fetchCurrencyAmounts(currency) {
+				$(this).blestaRequest("GET", "' . $this->Html->safe($this->base_uri . "main/getcurrencyamounts/") . '" + currency, null, function(data) {
+					if (data)
+						$(".settings .amounts").html(data);
+				},
+				null,
+				{dataType:"json"});
+			}
+		');
+		?>

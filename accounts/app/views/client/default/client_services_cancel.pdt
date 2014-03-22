@@ -1,0 +1,67 @@
+
+		<?php
+		echo $this->Html->ifSet($message);
+		
+		$this->WidgetClient->clear();
+		$this->WidgetClient->renderSubHead(false);
+		$this->WidgetClient->create($this->_("ClientServices.cancel.boxtitle_manage", true, $this->Html->ifSet($package->name), $this->Html->ifSet($service->name)), array('id'=>"client_services_manage"), $this->Html->ifSet($render_section, null));
+		
+		echo $this->Html->ifSet($service_infobox);
+		?>
+		<div class="heading first options">
+			<h5><?php $this->_("ClientServices.cancel.heading_cancel");?></h5>
+		</div>
+		<?php
+		$this->Form->create(null, array('id' => "cancel_service"));
+		?>
+		<div class="pad">
+			<ul>
+				<li>
+					<?php
+					$this->Form->fieldRadio("cancel", "term", ($this->Html->ifSet($vars->cancel, "term") == "term"), array('id' => "term", 'class' => "cancel_service"));
+					
+					// Show language based on whether or not a renew date exists
+					if ($this->Html->ifSet($service->date_renews, false))
+						$this->Form->label($this->_("ClientServices.cancel.field_term_date", true, $this->Date->cast($this->Html->ifSet($service->date_renews), "date")), "term", array('class' => "inline"));
+					else
+						$this->Form->label($this->_("ClientServices.cancel.field_term", true), "term", array('class' => "inline"));
+					
+					$this->Form->fieldRadio("cancel", "now", ($this->Html->ifSet($vars->cancel) == "now"), array('id' => "now", 'class' => "cancel_service"));
+					$this->Form->label($this->_("ClientServices.cancel.field_now", true), "now", array('class' => "inline"));
+					?>
+				</li>
+			</ul>
+		</div>
+		<div class="btn submit right_btn">
+			<div id="confirmation_messages" style="display:none;">
+				<?php
+				foreach ($this->Html->ifSet($confirm_cancel_messages, array()) as $type => $message) {
+				?>
+				<p class="<?php $this->Html->_($type);?>"><?php $this->Html->_($message);?></p>
+				<?php
+				}
+				?>
+			</div>
+			<a class="submit" href="#" rel="<?php echo $this->Html->safe($this->Html->ifSet($confirm_cancel_messages[$vars->cancel]));?>"><?php $this->_("ClientServices.cancel.field_cancel_submit");?></a>
+		</div>
+		<?php
+		$this->Form->end();
+		$this->WidgetClient->end();
+		?>
+<script type="text/javascript">
+$(document).ready(function() {
+	// Handle confirmation on cancel action
+	updateModalConfirmation();
+	
+	$('.cancel_service').change(function() {
+		var type = $(this).val();
+		$('#cancel_service a.submit').attr('rel', $('#confirmation_messages p.' + type).text());
+		
+		updateModalConfirmation();
+	});
+});
+
+function updateModalConfirmation() {
+	$('#cancel_service a.submit[rel]').blestaModalConfirm({submit:true, base_url: '<?php echo $this->base_uri;?>', close: '<?php $this->_("AppController.modal.text_close");?>'});
+}
+</script>

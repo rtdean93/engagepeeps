@@ -1,0 +1,46 @@
+<?php
+echo $this->Html->ifSet($message);
+?>
+	<div style="width: 40%; margin: 0 auto;">
+		<?php
+		$this->WidgetClient->clear();
+		$this->WidgetClient->create($this->_("ClientLogin.reset.reset_heading", true));
+		
+		$this->Form->create();
+		?>
+		<div class="pad">
+			<ul>
+				<li>
+					<span class="text-item">
+						<?php
+						$this->Form->label($this->_("ClientLogin.reset.field_username", true), "login_username");
+						$this->Form->fieldText("username", $this->Html->ifSet($vars->username), array('id'=>"login_username"));
+						?>
+					</span>
+				</li>
+				<li>
+					<label><a href="<?php echo $this->Html->safe($this->base_uri . "login/");?>"><?php $this->_("ClientLogin.reset.link_login");?></a></label>
+				</li>
+			</ul>
+		</div>
+		
+		<div class="button_row">
+			<div class="btn submit right_btn">
+				<a class="submit" href="#"><?php $this->_("ClientLogin.reset.field_resetsubmit");?></a>
+			</div>
+		</div>
+		
+		<?php
+		$this->Form->fieldSubmit("login", "", array('class'=>"hide_submit", 'hidefocus'=>"true"));
+		$this->Form->end();
+		$this->WidgetClient->end();
+		?>
+	</div>
+<?php
+$this->Javascript->setInline('
+	$(document).ready(function() {
+		$("#login_username").focus();
+		$("a.submit").blestaSubmitOnClick();
+	});
+');
+?>

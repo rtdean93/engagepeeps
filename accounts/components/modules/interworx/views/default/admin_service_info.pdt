@@ -1,0 +1,16 @@
+	<table class="table">
+		<tr class="heading_row">
+			<td class="fixed_small center border_none"><span class="paymnt_arrow"></span></td>
+			<td class="border_left"><?php $this->_("Interworx.service_info.email");?></td>
+			<td><?php $this->_("Interworx.service_info.password");?></td>
+			<td><?php $this->_("Interworx.service_info.server");?></td>
+			<td class="last"><?php $this->_("Interworx.service_info.options");?></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td><?php $this->Html->_($service_fields->interworx_email);?></td>
+			<td><?php $this->Html->_($service_fields->interworx_password);?></td>
+			<td><?php $this->Html->_($module_row->meta->host_name);?></td>
+			<td><a href="<?php echo $this->Html->safe("http" . (isset($module_row->meta->use_ssl) && $module_row->meta->use_ssl == "false" ? "" : "s") . "://" . $this->Html->ifSet($module_row->meta->host_name) . ":" . $module_row->meta->port . "/siteworx/?domain=" . $service_fields->interworx_domain);?>" target="_blank"><?php $this->_("Interworx.service_info.option_login");?></a></td>
+		</tr>
+	</table>

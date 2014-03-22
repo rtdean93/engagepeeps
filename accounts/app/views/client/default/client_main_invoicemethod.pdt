@@ -1,0 +1,43 @@
+		<?php
+		echo $this->Html->ifSet($message);
+		
+		$this->WidgetClient->clear();
+		$this->WidgetClient->renderSubHead(true);
+		$this->WidgetClient->create($this->_("ClientMain.invoicemethod.boxtitle_inv_method", true));
+		
+		$this->Form->create();
+		?>
+		<div class="pad">
+		<?php
+		// Set hidden field to allow submit when invoice methods are disabled
+		$this->Form->fieldHidden("send", "1");
+		
+		if ($this->Html->ifSet($delivery_methods)) {
+		?>
+			<ul>
+				<li>
+					<?php
+					// Set whether the fields are editable
+					$disabled = array();
+					if (!$this->Html->ifSet($enabled, false))
+						$disabled = array('disabled'=>"disabled");
+					
+					foreach ($delivery_methods as $method => $name) {
+						$type = "inv_" . $method;
+						$this->Form->fieldRadio("inv_method", $method, ($this->Html->ifSet($vars->inv_method) == $method), array_merge(array('id'=>$type), $disabled));
+						$this->Form->label($name, $type, array('class'=>"inline"));									
+					}
+					?>
+				</li>
+			</ul>
+		<?php
+		}
+		?>
+		</div>
+		<div class="button_row">
+			<div class="btn submit right_btn"><a class="submit" href="#"><?php $this->_("Clientmain.invoicemethod.field_methodsubmit");?></a></div>
+		</div>
+		<?php
+		$this->Form->end();
+		$this->WidgetClient->end();
+		?>

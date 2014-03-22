@@ -1,0 +1,22 @@
+
+		<?php
+		echo $this->Html->ifSet($message);
+		
+		$this->WidgetClient->clear();
+		$this->WidgetClient->renderSubHead(false);
+		$this->WidgetClient->create($this->_("ClientAccounts.editach.boxtitle_editach", true));
+		
+		$this->Form->create();
+		// Set partials
+		echo $this->Html->ifSet($contact_info);
+		echo $this->Html->ifSet($ach_info);
+		?>
+		<div class="button_row">
+			<div class="btn submit right_btn">
+				<a class="submit" href="#"><?php $this->_("ClientAccounts.editach.field_accountsubmit"); ?></a>
+			</div>
+		</div>
+		<?php
+		$this->Form->end();
+		$this->WidgetClient->end();
+		?>		

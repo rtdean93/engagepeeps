@@ -1,0 +1,131 @@
+
+			<div class="heading options first">
+				<h5><?php $this->_("Main.contact_info.heading_contact");?></h5>
+			</div>
+			<div class="pad content">
+				<ul class="no_border">
+					<?php
+					if (!$this->Html->ifSet($edit, false)) {
+					?>
+					<li>
+						<?php
+						$this->Form->label($this->_("Main.contact_info.field_contact_id", true), "contact_id");
+						$this->Form->fieldSelect("contact_id", $this->Html->ifSet($contacts), $this->Html->ifSet($vars->contact_id), array("id"=>"contact_id"));
+						?>
+					</li>
+					<?php
+					}
+					?>
+					<li>
+						<?php
+						$this->Form->label($this->_("Main.contact_info.field_first_name", true), "first_name");
+						$this->Form->fieldText("first_name", $this->Html->ifSet($vars->first_name), array("id"=>"first_name"));
+						?>
+					</li>
+					<li>
+						<?php
+						$this->Form->label($this->_("Main.contact_info.field_last_name", true), "last_name");
+						$this->Form->fieldText("last_name", $this->Html->ifSet($vars->last_name), array("id"=>"last_name"));
+						?>
+					</li>
+					<li>
+						<?php
+						$this->Form->label($this->_("Main.contact_info.field_company", true), "company");
+						$this->Form->fieldText("company", $this->Html->ifSet($vars->company), array("id"=>"company"));
+						?>
+					</li>
+					<li>
+						<?php
+						$this->Form->label($this->_("Main.contact_info.field_address1", true), "address1");
+						$this->Form->fieldText("address1", $this->Html->ifSet($vars->address1), array("id"=>"address1"));
+						?>
+					</li>
+					<li>
+						<?php
+						$this->Form->label($this->_("Main.contact_info.field_address2", true), "address2");
+						$this->Form->fieldText("address2", $this->Html->ifSet($vars->address2), array("id"=>"address2"));
+						?>
+					</li>
+					<li>
+						<?php
+						$this->Form->label($this->_("Main.contact_info.field_city", true), "city");
+						$this->Form->fieldText("city", $this->Html->ifSet($vars->city), array("id"=>"city"));
+						?>
+					</li>
+					<li>
+						<?php
+						$this->Form->label($this->_("Main.contact_info.field_country", true), "country");
+						$this->Form->fieldSelect("country", $this->Html->ifSet($countries), $this->Html->ifSet($vars->country), array("id"=>"country"));
+						?>
+					</li>
+					<li>
+						<?php
+						$this->Form->label($this->_("Main.contact_info.field_state", true), "state");
+						$this->Form->fieldSelect("state", $this->Html->ifSet($states), $this->Html->ifSet($vars->state), array("id"=>"state"));
+						?>
+					</li>
+					<li>
+						<?php
+						$this->Form->label($this->_("Main.contact_info.field_zip", true), "zip");
+						$this->Form->fieldText("zip", $this->Html->ifSet($vars->zip), array("id"=>"zip"));
+						?>
+					</li>
+					<?php
+					if ($this->Html->ifSet($show_email, false)) {
+					?>
+					<li>
+						<?php
+						$this->Form->label($this->_("Main.contact_info.field_email", true), "email");
+						$this->Form->fieldText("email", $this->Html->ifSet($vars->email), array("id"=>"email"));
+						?>
+					</li>
+					<?php
+					}
+					?>
+				</ul>
+				<div class="clear"></div>
+			</div>
+		
+<?php
+$this->Javascript->setInline("
+	$(document).ready(function() {
+		var contacts = " . $this->Html->ifSet($js_contacts) . ";
+
+		$('#country').change(function() {
+			$(this).blestaRequest('get', '" . $this->Html->safe($this->base_uri . "plugin/order/main/getstates/" . $this->Html->ifSet($order_form->label) . "/") . "' + $(this).val(), null, function(data) {
+					// Remove all existing items
+					$('option', '#state').remove();
+					
+					// Append all new items
+					$.each(data, function(val, text) {
+						$('#state').append( new Option(text, val));
+					});
+				},
+				null,
+				{dataType: 'json'}
+			);
+		});
+		
+		$('#contact_id').change(function() {
+			if ($('#contact_id').val() != 'none') {
+				// Populate contacts data onto form
+				for (var i in contacts) {
+					if (contacts[i]['id'] == $('#contact_id').val()) {
+						// Set data
+						$('#first_name').val(contacts[i]['first_name']);
+						$('#last_name').val(contacts[i]['last_name']);
+						$('#address1').val(contacts[i]['address1']);
+						$('#address2').val(contacts[i]['address2']);
+						$('#city').val(contacts[i]['city']);
+						$('#state').val(contacts[i]['state']);
+						$('#country').val(contacts[i]['country']);
+						$('#zip').val(contacts[i]['zip']);
+						$('#email').val(contacts[i]['email']);
+						break;
+					}
+				}
+			}
+		});
+	});
+");
+?>

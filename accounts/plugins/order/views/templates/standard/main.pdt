@@ -1,0 +1,117 @@
+
+					<nav class="step_menu">
+						<ul>
+							<li class="active">
+								<a href="<?php echo $this->Html->safe($this->base_uri . "plugin/order/main/index/" . $this->Html->ifSet($order_form->label));?>">
+									<strong><?php $this->_("Main.steps.step_1_name");?></strong>
+									<em><?php $this->_("Main.steps.step_1_description");?></em>
+								</a>
+							</li>
+							<li>
+								<a href="<?php echo $this->Html->safe($this->base_uri . "plugin/order/main/configure/" . $this->Html->ifSet($order_form->label));?>">
+									<strong><?php $this->_("Main.steps.step_2_name");?></strong>
+									<em><?php $this->_("Main.steps.step_2_description");?></em>
+								</a>
+							</li>
+							<li>
+								<a href="<?php echo $this->Html->safe($this->base_uri . "plugin/order/main/review/" . $this->Html->ifSet($order_form->label));?>">
+									<strong><?php $this->_("Main.steps.step_3_name");?></strong>
+									<em><?php $this->_("Main.steps.step_3_description");?></em>
+								</a>
+							</li>
+							<li class="last">
+								<a href="<?php echo $this->Html->safe($this->base_uri . "plugin/order/main/checkout/" . $this->Html->ifSet($order_form->label));?>">
+									<strong><?php $this->_("Main.steps.step_4_name");?></strong>
+									<em><?php $this->_("Main.steps.step_4_description");?></em>
+								</a>
+							</li>
+						</ul>
+					</nav>
+						
+                    <section class="left_sec">
+						<?php
+						foreach ($package_groups as $group_id => $package_group) {
+							if (!array_key_exists($group_id, $packages))
+								continue;
+							
+							$this->WidgetClient->clear();
+							$this->WidgetClient->create($this->Html->ifSet($package_group->name));
+						?>
+                            <section class="pad content">
+                                <ul>
+									<?php
+									$j=0;
+									$num_packages = count($packages[$group_id]);
+									foreach ($packages[$group_id] as $package) {
+										// Only render package if there are pricing options available
+										if (empty($package->pricing)) {
+											$j++;
+											continue;
+										}
+									?>
+                                    <li<?php echo ($j == $num_packages-1 ? " class=\"last\"" : "");?>>
+                                        <h3><?php $this->Html->_($package->name);?></h3>
+                                        <?php echo ($this->Html->ifSet($package->description_html) != "" ? $package->description_html : $this->TextParser->encode($parser_syntax, $package->description));?>
+                                        <?php
+										$this->Form->create();
+										?>
+                                            <div class="radios">
+												<?php
+												$i=0;
+												foreach ($package->pricing as $price) {
+												?>
+                                                <label class="radio_btn">
+													<?php
+													$this->Form->fieldRadio("pricing_id", $price->id, $i == 0);
+													$this->Form->fieldHidden("group_id", $group_id);
+													?>
+                                                    <span>
+														<?php
+														if ($this->Html->ifSet($price->period) == "onetime")
+															echo $this->Html->ifSet($periods[$price->period]);
+														else {
+															$term = $this->Html->_($price->term, true);
+															echo $this->Html->concat(" ", $term, ($term == 1 ? $this->Html->ifSet($periods[$price->period]) : $this->Html->ifSet($periods[$price->period . "_plural"])));
+														}
+														?>
+													</span>
+													<span class="price" style="display: none;"><?php echo $this->CurrencyFormat->format($price->price, $price->currency, array('code' => false));?></span>
+                                                </label>
+												<?php
+													$i++;
+												}
+												?>
+                                            </div>
+                                            <aside class="aside_sec">                                            
+                                                <input type="submit" value="<?php $this->_("Main.index.select_btn");?>" name="" class="submit-btn" />
+
+                                                <span class="rate"><strong class="rate_value"><?php echo $this->CurrencyFormat->format($package->pricing[0]->price, $package->pricing[0]->currency, array('code' => false));?></strong></span>
+                                            </aside>
+                                        <?php
+										$this->Form->end();
+										?>
+                                    </li>
+									<?php
+										$j++;
+									}									
+									?>
+                                </ul>
+                            </section>
+						<?php
+							$this->WidgetClient->end();
+						}
+						?>
+                    </section>
+					
+					<?php
+					echo $this->Html->ifSet($order_summary);
+					?>
+					
+<script type="text/javascript">
+	$(document).ready(function() {
+		// Update value for pricing option
+		$("input[name='pricing_id']").change(function() {
+			$(".rate_value", $(this).closest("form")).html($(".price", $(this).closest("label")).html());
+		});
+	});
+</script>

@@ -1,0 +1,158 @@
+<div class="message_box">
+	<ul>
+		<?php
+		// $success is an alias for $message
+		if (isset($success))
+			$message = $success;
+			
+		if (isset($message)) {
+		?>
+		<li class="message">
+			<?php
+			if ($this->Html->ifSet($show_close, true)) {
+			?>
+			<a href="#" class="cross_btn"><?php $this->_("AppController.message.close");?></a>
+			<?php
+			}
+			
+			if ($this->Html->ifSet($message_title, false)) {
+			?>
+			<h4><?php $this->Html->_($message_title);?></h4>
+			<?php
+			}
+			
+			if (is_array($message)) {
+				foreach ($message as $field => $messages) {
+					foreach ($messages as $key => $message_text) {
+					?>
+					<p><?php $this->Html->_($message_text, false, $preserve_tags);?></p>
+					<?php
+					}
+				}
+			}
+			else {
+			?>
+			<p><?php $this->Html->_($message, false, $preserve_tags);?></p>
+			<?php
+			}
+			?>
+		</li>
+		<?php
+		}
+		if (isset($error)) {
+		?>
+		<li class="error">
+			<?php
+			if ($this->Html->ifSet($show_close, true)) {
+			?>
+			<a href="#" class="cross_btn"><?php $this->_("AppController.message.close");?></a>
+			<?php
+			}
+			
+			if ($this->Html->ifSet($error_title, false)) {
+			?>
+			<h4><?php $this->Html->_($error_title);?></h4>
+			<?php
+			}
+			
+			if (is_array($error)) {
+				foreach ($error as $field => $errors) {
+					foreach ($errors as $key => $message_text) {
+					?>
+					<p><?php $this->Html->_($message_text, false, $preserve_tags);?></p>
+					<?php
+					}
+				}
+			}
+			else {
+			?>
+			<p><?php $this->Html->_($error, false, $preserve_tags);?></p>
+			<?php
+			}
+			?>
+		</li>
+		<?php
+		}
+		if (isset($notice)) {
+		?>
+		<li class="notice">
+			<?php
+			if ($this->Html->ifSet($show_close, true)) {
+			?>
+			<a href="#" class="cross_btn"><?php $this->_("AppController.message.close");?></a>
+			<?php
+			}
+			
+			if ($this->Html->ifSet($notice_title, false)) {
+			?>
+			<h4><?php $this->Html->_($notice_title);?></h4>
+			<?php
+			}
+			
+			if (is_array($notice)) {
+				foreach ($notice as $field => $notices) {
+					foreach ($notices as $key => $message_text) {
+					?>
+					<p><?php $this->Html->_($message_text, false, $preserve_tags);?></p>
+					<?php
+					}
+				}
+			}
+			else {
+			?>
+			<p><?php $this->Html->_($notice, false, $preserve_tags);?></p>
+			<?php
+			}
+			?>
+		</li>
+		<?php
+		}
+		if (isset($info)) {
+		?>
+		<li class="info">
+			<?php
+			if ($this->Html->ifSet($show_close, true)) {
+			?>
+			<a href="#" class="cross_btn"><?php $this->_("AppController.message.close");?></a>
+			<?php
+			}
+			
+			if ($this->Html->ifSet($info_title, false)) {
+			?>
+			<h4><?php $this->Html->_($info_title);?></h4>
+			<?php
+			}
+			
+			if (is_array($info)) {
+				foreach ($info as $field => $infos) {
+					foreach ($infos as $key => $message_text) {
+					?>
+					<p><?php $this->Html->_($message_text, false, $preserve_tags);?></p>
+					<?php
+					}
+				}
+			}
+			else {
+			?>
+			<p><?php $this->Html->_($info, false, $preserve_tags);?></p>
+			<?php
+			}
+			?>
+			
+			<?php
+			if ($this->Html->ifSet($info_buttons)) {
+				foreach ($info_buttons as $button) {
+			?>
+				<div class="<?php $this->Html->_($button['class']);?>">
+					<a href="<?php $this->Html->_($button['url']);?>"><?php $this->Html->_($button['label']);?></a>
+				</div>
+			<?php
+				}
+			}
+			?>
+		</li>
+		<?php
+		}
+		?>
+	</ul>
+</div>	

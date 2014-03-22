@@ -1,0 +1,129 @@
+	
+			<?php
+			$links = array(
+				array('name'=>$this->_("ClientServices.index.category_active", true) . " <span>(" . $this->Html->_($status_count['active'], true) . ")</span>", 'current'=>($this->Html->ifSet($status) == "active" ? true : false), 'attributes'=>array('href'=>$this->base_uri . "services/index/active/", 'class'=>"ajax")),
+				array('name'=>$this->_("ClientServices.index.category_pending", true) . " <span>(" . $this->Html->_($status_count['pending'], true) . ")</span>", 'current'=>($this->Html->ifSet($status) == "pending" ? true : false), 'attributes'=>array('href'=>$this->base_uri . "services/index/pending/", 'class'=>"ajax")),
+				array('name'=>$this->_("ClientServices.index.category_suspended", true) . " <span>(" . $this->Html->_($status_count['suspended'], true) . ")</span>", 'current'=>($this->Html->ifSet($status) == "suspended" ? true : false), 'highlight'=>true, 'attributes'=>array('href'=>$this->base_uri . "services/index/suspended/", 'class'=>"ajax")),
+				array('name'=>$this->_("ClientServices.index.category_canceled", true) . " <span>(" . $this->Html->_($status_count['canceled'], true) . ")</span>", 'current'=>($this->Html->ifSet($status) == "canceled" ? true : false), 'attributes'=>array('href'=>$this->base_uri . "services/index/canceled/", 'class'=>"ajax")),
+			);
+			
+			$this->WidgetClient->clear();
+			$this->WidgetClient->setLinks($links);
+			$this->WidgetClient->create($this->_("ClientServices.index.boxtitle_services", true), array('id'=>"client_services"), $this->Html->ifSet($render_section, null));
+			?>
+			<div class="pad">
+				<div class="table_sec">
+					<?php
+					if ($this->Html->ifSet($services, false) && ($num_services = count($services)) > 0) {
+					?>
+					<table class="table">
+						<tbody>
+							<tr class="head">
+								<td><span><a href="<?php echo $this->Html->safe($this->base_uri . "services/index/" . $this->Html->ifSet($status) . "/?sort=name&order=" . ($sort == "name" ? $negate_order : $order));?>" class="ajax<?php echo $this->Html->safe($sort == "name" ? " " . $order : "");?>"><?php $this->_("ClientServices.index.heading_package");?></a></span></td>
+								<td><span><?php $this->_("ClientServices.index.heading_label");?></span></td>
+								<td><span><a href="<?php echo $this->Html->safe($this->base_uri . "services/index/" . $this->Html->ifSet($status) . "/?sort=term&order=" . ($sort == "term" ? $negate_order : $order));?>" class="ajax<?php echo $this->Html->safe($sort == "term" ? " " . $order : "");?>"><?php $this->_("ClientServices.index.heading_term");?></a></span></td>
+								<td><span><a href="<?php echo $this->Html->safe($this->base_uri . "services/index/" . $this->Html->ifSet($status) . "/?sort=date_added&order=" . ($sort == "date_added" ? $negate_order : $order));?>" class="ajax<?php echo $this->Html->safe($sort == "date_added" ? " " . $order : "");?>"><?php $this->_("ClientServices.index.heading_datecreated");?></a></span></td>
+								<td><span><a href="<?php echo $this->Html->safe($this->base_uri . "services/index/" . $this->Html->ifSet($status) . "/?sort=date_renews&order=" . ($sort == "date_renews" ? $negate_order : $order));?>" class="ajax<?php echo $this->Html->safe($sort == "date_renews" ? " " . $order : "");?>"><?php $this->_("ClientServices.index.heading_daterenews");?></a></span></td>
+								<?php
+								if ($this->Html->ifSet($status) == "suspended") {
+								?>
+								<td><span><a href="<?php echo $this->Html->safe($this->base_uri . "services/index/" . $this->Html->_($status, true) . "/?sort=date_suspended&order=" . ($sort == "date_suspended" ? $negate_order : $order));?>" class="ajax<?php echo $this->Html->safe($sort == "date_suspended" ? " " . $order : "");?>"><?php $this->_("ClientServices.index.heading_datesuspended");?></a></span></td>
+								<?php
+								}
+								elseif ($this->Html->ifSet($status) == "canceled") {
+								?>
+								<td class="last"><span><a href="<?php echo $this->Html->safe($this->base_uri . "services/index/" . $this->Html->_($status, true) . "/?sort=date_canceled&order=" . ($sort == "date_canceled" ? $negate_order : $order));?>" class="ajax<?php echo $this->Html->safe($sort == "date_canceled" ? " " . $order : "");?>"><?php $this->_("ClientServices.index.heading_datecanceled");?></a></span></td>
+								<?php
+								}
+								?>
+								<?php
+								if ($this->Html->ifSet($status) != "canceled") {
+								?>
+								<td class="last"><?php $this->_("ClientServices.index.heading_options");?></td>
+								<?php
+								}
+								?>
+							</tr>
+							<?php
+							// List all services
+							for ($i=0; $i<$num_services; $i++) {
+							?>
+							<tr class="<?php echo $this->Html->concat(" ", ($i%2 == 1) ? "odd_row" : "", "expand", "service_info");?>">
+								<td><?php $this->Html->_($services[$i]->package->name);?></td>
+								<td><?php $this->Html->_($services[$i]->name);?></td>
+								<td>
+									<?php
+									if ($this->Html->ifSet($services[$i]->package_pricing->period) == "onetime")
+										$this->Html->_($periods[$services[$i]->package_pricing->period]);
+									else {
+										$term = $this->Html->_($services[$i]->package_pricing->term, true);
+										echo $this->Html->safe($this->Html->concat(" ", $term, ($term == 1 ? $this->Html->ifSet($periods[$services[$i]->package_pricing->period]) : $this->Html->ifSet($periods[$services[$i]->package_pricing->period . "_plural"]))));
+									}
+									?>
+								</td>
+								<td><?php echo $this->Date->cast($this->Html->_($services[$i]->date_added, true));?></td>
+								<td><?php echo (empty($services[$i]->date_renews) ? $this->_("ClientServices.index.text_never", true) : $this->Date->cast($services[$i]->date_renews));?></td>
+								<?php
+								if ($this->Html->ifSet($status) == "suspended") {
+								?>
+								<td><?php echo (empty($services[$i]->date_suspended) ? $this->_("ClientServices.index.text_never", true) : $this->Date->cast($this->Html->_($services[$i]->date_suspended, true)));?></td>
+								<?php
+								}
+								elseif ($this->Html->ifSet($status) == "canceled") {
+								?>
+								<td><?php echo (empty($services[$i]->date_canceled) ? $this->_("ClientServices.index.text_never", true) : $this->Date->cast($this->Html->_($services[$i]->date_canceled, true)));?></td>
+								<?php
+								}
+								?>
+								<?php
+								if ($this->Html->ifSet($status) != "canceled") {
+								?>
+								<td><a href="<?php echo $this->Html->safe($this->base_uri . "services/manage/" . $this->Html->ifSet($services[$i]->id) . "/");?>" class="manage"><?php $this->_("ClientServices.index.option_manage");?></a></td>
+								<?php
+								}
+								?>
+							</tr>
+							<tr class="expand_details" id="services_<?php $this->Html->_($services[$i]->id);?>">
+								<td colspan="7" class="subtable">
+								</td>
+							</tr>
+							<?php
+							}
+							?>
+						</tbody>
+					</table>
+					<?php
+						$this->Pagination->build();
+					}
+					else {
+					?>
+					<div class="inner">
+						<div class="empty_section">
+							<div class="empty_box">
+								<?php
+								$section_language = $this->_("ClientServices.index.category_" . $this->Html->ifSet($status), true);
+								$this->_("ClientServices.index.no_results", false, $section_language);
+								?>
+							</div>
+						</div>
+					</div>
+					<?php
+					}
+					?>
+				</div>
+			</div>
+			<?php
+			$this->WidgetClient->end();
+			?>
+			
+<script type="text/javascript">
+	$(document).ready(function() {
+		// Fetch all transactions applied to the given invoices
+		$(".service_info a,.service_info input", this).click(function(e) {
+			e.stopPropagation();
+		});
+		$(".service_info").click(function() {
+			$(this).blestaUpdateRow("<?php echo $this->Html->_($this->base_uri, true) . "services/serviceinfo/";?>" + $(this).next("tr").attr("id").split("_")[1], ".subtable");
+		});
+	});
+</script>

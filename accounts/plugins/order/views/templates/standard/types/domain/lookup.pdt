@@ -1,0 +1,136 @@
+
+					<?php
+					$this->WidgetClient->clear();
+					$this->WidgetClient->create($this->_("Domain.lookup.title", true));
+					?>
+						<?php
+						$this->Form->create();
+						?>
+						<section class="pad content">
+							<ul class="no_border domain_check">
+								<li>
+									<?php
+									$this->Form->fieldText("domain", $this->Html->ifSet($vars->domain), array('placeholder' => $this->_("Domain.lookup.domain_placeholder", true)));
+									?>
+								</li>
+								<li>
+									<?php
+									foreach ($tlds as $tld => $pack) {
+										$this->Form->fieldCheckbox("tlds[]", $tld, in_array($tld, $this->Html->ifSet($vars->tlds, array())), array('id' => "t" . $tld));
+										$this->Form->label($tld, "t" . $tld, array('class' => "inline"));
+									}
+									?>
+								</li>
+							</ul>
+						</section>
+							
+						<div class="button_row">
+							<div class="btn submit right_btn">
+								<a href="<?php echo $this->Html->safe($this->base_uri . "plugin/order/main/index/" . $this->Html->ifSet($order_form->label) . "/?skip=true");?>"><?php $this->_("Domain.lookup.other_btn");?></a>
+							</div>
+							<?php
+							$this->Form->fieldSubmit("lookup", $this->_("Domain.lookup.lookup_btn", true), array('class' => "submit-btn"));
+							$this->Form->fieldSubmit("transfer", $this->_("Domain.lookup.transfer_btn", true), array('class' => "submit-btn"));
+							?>
+						<div>
+						<?php
+						$this->Form->end();
+						?>
+						
+						<?php
+						if ($this->Html->ifSet($domains) && !empty($domains)) {
+							$this->Form->create($this->base_uri . "plugin/order/main/configure/" . $order_form->label, array('id' => "configure_domain"));
+						?>
+						<div class="heading options message">
+							<?php
+							if (!isset($availability) || in_array(true, $availability)) {
+							?>
+							<h2 class="available"><?php $this->_("Domain.lookup.domains_header_available");?></h2>
+							<?php
+							}
+							else {
+							?>
+							<h2 class="unavailable"><?php $this->_("Domain.lookup.domains_header_unavailable");?></h2>
+							<?php
+							}
+							?>
+						</div>
+						<section class="pad content">
+							<div class="table_sec">
+								<table>
+									<thead>
+										<tr class="head">
+											<td></td>
+											<td><?php $this->_("Domain.lookup.domains_domain_name");?></td>
+											<td><?php $this->_("Domain.lookup.domains_status");?></td>
+											<td class="last"><?php $this->_("Domain.lookup.domains_term");?></td>
+										</tr>
+									</thead>
+									<tbody>
+										<?php
+										$i=0;
+										foreach ($domains as $domain => $pack) {
+											$allow = true;
+											if (isset($availability[$domain]) && !$availability[$domain])
+												$allow = false;
+										?>
+										<tr<?php echo $this->Html->concat(" ", ($i%2 == 1) ? " class=\"odd_row\"" : "", "");?>>
+											<td class="fixed_small center">
+												<?php
+												if ($allow) {
+													$this->Form->fieldCheckbox("domains[]", $domain, in_array($domain, $this->Html->ifSet($vars->domains, array())), array('id' => "dom_" . $domain));
+												}
+												?>
+											</td>
+											<td><?php $this->Form->label($this->Html->_($domain), "dom_" . $domain);?></td>
+											<td><?php ($allow ? $this->_("Domain.lookup.domain_available") : $this->_("Domain.lookup.domain_unavailable"));?>
+											</td>
+											<td>
+												<?php
+												$prices = array();
+												foreach ($pack->package->pricing as $price) {
+													$prices[$price->id] = $this->_("Domain.lookup.term", true, $price->term, ($price->term == 1 ? $this->Html->ifSet($periods[$price->period]) : $this->Html->ifSet($periods[$price->period . "_plural"])), $this->CurrencyFormat->format($price->price, $price->currency));
+												}
+												
+												if ($allow) {
+													$this->Form->fieldSelect("pricing_id[" . $this->Html->_($domain, true) . "]", $prices, $this->Html->ifSet($vars->pricing_id));
+													$this->Form->fieldHidden("group_id[" . $this->Html->_($domain, true) . "]", $pack->group->package_group_id);
+												}
+												$this->Form->fieldHidden("meta[" . $this->Html->_($domain, true) . "][domain]", $domain);
+												
+												if (isset($vars->transfer))
+													$this->Form->fieldHidden("meta[" . $this->Html->_($domain, true) . "][transfer]", "true");
+												?>
+											</td>
+										</tr>
+										<?php
+											$i++;
+										}
+										?>
+									</tbody>
+								</table>
+							</div>
+						</section>
+						<div class="button_row">
+							<?php
+							$this->Form->fieldSubmit("submit", $this->_("Domain.lookup.order_btn", true), array('class' => "submit-btn"));
+							?>
+						</div>
+						<?php
+							$this->Form->end();
+						}
+						?>
+					<?php
+					$this->WidgetClient->end();
+					?>
+<script type="text/javascript">
+	$("#configure_domain").submit(function(event) {
+		var domain_form = this;
+		$("input[name='domains[]']", domain_form).each(function() {
+			if (!$(this).is(":checked")) {
+				$("select[name='pricing_id[" + $(this).val() + "]']", domain_form).attr("disabled", "disabled");
+				$("input[name='group_id[" + $(this).val() + "]']", domain_form).remove();
+			}
+		});
+	});
+</script>

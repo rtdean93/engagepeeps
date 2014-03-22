@@ -1,0 +1,98 @@
+
+					<?php
+					echo $this->Html->ifSet($message);
+					?>
+					
+					<?php
+					$this->WidgetClient->clear();
+					$this->WidgetClient->create($this->_((!$this->Html->ifSet($gateway_buttons) ? "Main.complete.header_complete" : "Main.complete.header_almost_complete"), true));
+					?>
+					
+					<div class="pad content">
+						<p><?php $this->_("Main.complete.order_number", false, $this->Html->safe($order->order_number));?></p>
+						<p><?php $this->_((!$this->Html->ifSet($gateway_buttons) ? "Main.complete.complete_description" : "Main.complete.almost_complete_description"));?></p>
+						
+						<?php
+						// If gateway button set, display pay button for the nonmerchant gateway
+						if ($this->Html->ifSet($gateway_buttons)) {
+						?>
+						<div class="payment_gateway">
+						<?php
+						foreach ($this->Html->ifSet($gateway_buttons, array()) as $buttons) {
+							foreach ($buttons as $gateway_button) {
+							?>
+							<div class="clear">
+								<?php echo $gateway_button;?>
+							</div>
+							<?php
+							}
+						}
+						?>
+						</div>
+						<?php
+						}
+						?>
+					
+						<ul>
+							<?php
+							$num_lines = count($invoice->line_items);
+							$j=0;
+							foreach ($invoice->line_items as $line) {
+							?>
+							<li<?php echo ($j++ == $num_lines-1 ? " class=\"last\"" : "");?>>
+								<div class="radios">
+									<h3><?php $this->Html->_($line->description);?></h3>
+								</div>
+								<aside class="aside_sec">
+									<span class="rate">
+										<?php
+										if (isset($line->qty) && $line->qty > 1) {
+										?>
+										<?php $this->_("Main.review.quantity", false, $this->CurrencyFormat->truncateDecimal($line->qty, 0));?>
+										<?php
+										}
+										?>
+										<strong class="rate_value"><?php echo $this->Html->safe($this->CurrencyFormat->format($line->amount, $invoice->currency));?></strong>
+									</span>
+								</aside>
+							</li>
+							<?php
+							}
+							?>
+						</ul>
+						
+						
+						<div class="sub_total_box">
+							<div class="row">
+								<span><?php $this->_("Main.summary.totals.subtotal");?></span>
+								<strong><em><?php echo $this->Html->safe($this->CurrencyFormat->format($invoice->subtotal, $invoice->currency));?></em></strong>
+							</div>
+							<?php
+							if ($this->Html->ifSet($invoice->taxes)) {
+								foreach ($invoice->taxes as $tax) {
+							?>
+								<div class="row">
+									<span><?php $this->_("Main.summary.totals.tax", false, $tax->name, $tax->amount);?></span>
+									<em><?php echo $this->Html->safe($this->CurrencyFormat->format($tax->tax_total, $invoice->currency));?></em>
+								</div>
+							<?php
+								}
+							}
+							?>
+							<div class="row total">
+								<span><?php $this->_("Main.summary.totals.total");?></span>
+								<strong><em><?php echo $this->Html->safe($this->CurrencyFormat->format($invoice->total, $invoice->currency));?></em></strong>
+							</div>
+						</div>
+					</div>
+					
+					<?php
+					if (!$this->Html->ifSet($gateway_buttons)) {
+					?>
+					<div class="button_row">
+						<div class="btn submit right_btn"><a href="<?php echo $this->Html->safe($this->base_uri . "plugin/order/main/index/" . $this->Html->ifSet($order_form->label));?>"><?php $this->_("Main.complete.order_more_btn");?></a></div>
+					</div>
+					<?php
+					}
+					$this->WidgetClient->end();
+					?>

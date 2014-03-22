@@ -1,0 +1,44 @@
+	
+	<ul>
+		<li>
+			<?php
+			$this->Form->label($this->_("GoogleCheckout.callback_url", true), "callback_url");
+			$this->Form->fieldText("callback_url", $this->Html->ifSet($callback_url), array('id' => "callback_url", "readonly" => "readonly"));
+			?>
+			<span class="tooltip"><?php $this->_("AppController.tooltip.text");?><div><?php $this->_("GoogleCheckout.callback_url_note");?></div></span>
+		</li>
+		<li>
+			<?php
+			$this->Form->label($this->_("GoogleCheckout.merchant_id", true), "merchant_id");
+			$this->Form->fieldText("merchant_id", $this->Html->ifSet($meta['merchant_id']), array('id'=>"merchant_id"));
+			?>
+		</li>
+		<li>
+			<?php
+			$this->Form->label($this->_("GoogleCheckout.merchant_key", true), "merchant_key");
+			$this->Form->fieldText("merchant_key", $this->Html->ifSet($meta['merchant_key']), array('id'=>"merchant_key"));
+			?>
+		</li>
+		<li>
+			<?php
+			$this->Form->label($this->_("GoogleCheckout.callback_key", true), "callback_key");
+			$this->Form->fieldText("callback_key", $this->Html->ifSet($meta['callback_key']), array('id'=>"callback_key"));
+			?>
+		</li>
+		<li>
+			<?php
+			$this->Form->fieldCheckbox("dev_mode", "true", ($this->Html->ifSet($meta['dev_mode'], "false") == "true"), array('id'=>"dev_mode"));
+			$this->Form->label($this->_("GoogleCheckout.dev_mode", true), "dev_mode", array('class'=>"inline"));
+			?>
+			<span class="tooltip"><?php $this->_("AppController.tooltip.text");?><div><?php $this->_("GoogleCheckout.dev_mode_note");?></div></span>
+		</li>
+	</ul>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('#callback_url').focus(function() {
+			$(this).select();
+			return false;
+		});
+	});
+</script>

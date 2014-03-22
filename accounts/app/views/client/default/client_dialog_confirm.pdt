@@ -1,0 +1,14 @@
+
+<div class="common_box">
+	<div class="inner">
+		<?php echo $this->Html->ifSet($message);?>
+		<div class="button_row">
+			<div class="btn submit right_btn">
+				<a href="#" class="btn_right no"><?php $this->_("ClientDialog.confirm.text_no");?></a>
+			</div>
+			<div class="btn submit right_btn">
+				<a href="#" class="btn_right yes"><?php $this->_("ClientDialog.confirm.text_yes");?></a>
+			</div>
+		</div>
+	</div>
+</div>

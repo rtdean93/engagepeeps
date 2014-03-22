@@ -1,0 +1,284 @@
+
+					<nav class="step_menu">
+						<ul>
+							<li>
+								<a href="<?php echo $this->Html->safe($this->base_uri . "plugin/order/main/index/" . $this->Html->ifSet($order_form->label));?>">
+									<strong><?php $this->_("Main.steps.step_1_name");?></strong>
+									<em><?php $this->_("Main.steps.step_1_description");?></em>
+								</a>
+							</li>
+							<li>
+								<a href="<?php echo $this->Html->safe($this->base_uri . "plugin/order/main/configure/" . $this->Html->ifSet($order_form->label));?>">
+									<strong><?php $this->_("Main.steps.step_2_name");?></strong>
+									<em><?php $this->_("Main.steps.step_2_description");?></em>
+								</a>
+							</li>
+							<li class="active">
+								<a href="<?php echo $this->Html->safe($this->base_uri . "plugin/order/main/review/" . $this->Html->ifSet($order_form->label));?>">
+									<strong><?php $this->_("Main.steps.step_3_name");?></strong>
+									<em><?php $this->_("Main.steps.step_3_description");?></em>
+								</a>
+							</li>
+							<li class="last">
+								<a href="<?php echo $this->Html->safe($this->base_uri . "plugin/order/main/checkout/" . $this->Html->ifSet($order_form->label));?>">
+									<strong><?php $this->_("Main.steps.step_4_name");?></strong>
+									<em><?php $this->_("Main.steps.step_4_description");?></em>
+								</a>
+							</li>
+						</ul>
+					</nav>
+					<?php
+					echo $this->Html->ifSet($message);
+					?>
+					
+					<?php
+					$this->WidgetClient->create($this->_("Main.review.header_cart", true));
+					?>
+					<div class="pad content">
+						<?php
+						if ($this->Html->ifSet($items) && !empty($items)) {
+						?>
+						<ul>
+							<?php
+							$num_items = count($items);
+							foreach ($items as $item) {
+								$price = null;
+								foreach ($item['package']->pricing as $pricing) {
+									if ($pricing->id == $item['pricing_id']) {
+										$price = $pricing;
+										break;
+									}
+								}
+							?>
+							<li>
+								<div>
+									<h3><?php $this->Html->_($item['package']->name);?></h3>
+									<p><?php $this->Html->_($item['service_name']);?></p>
+									<?php echo ($this->Html->ifSet($item['package']->description_html) != "" ? $item['package']->description_html : $this->TextParser->encode($parser_syntax, $item['package']->description));?>
+									
+									<a href="<?php echo $this->Html->safe($this->base_uri . "plugin/order/main/configure/" . $this->Html->ifSet($order_form->label) . "/?item=" . $this->Html->ifSet($item['index']));?>"><?php $this->_("Main.review.edit_item");?></a> | <a href="<?php echo $this->Html->safe($this->base_uri . "plugin/order/main/remove/" . $this->Html->ifSet($order_form->label) . "/?item=" . $this->Html->ifSet($item['index']));?>"><?php $this->_("Main.review.remove_item");?></a>
+									
+									<div>
+										<div class="radios">
+											<label class="radio_btn">
+												<span>
+													<?php
+													if ($this->Html->ifSet($price->period) == "onetime")
+														echo $this->Html->ifSet($periods[$price->period]);
+													else {
+														$term = $this->Html->_($price->term, true);
+														echo $this->Html->concat(" ", $term, ($term == 1 ? $this->Html->ifSet($periods[$price->period]) : $this->Html->ifSet($periods[$price->period . "_plural"])));
+													}
+													?>
+												</span>
+											</label>
+										</div>
+										<aside class="aside_sec">                                            
+											<span class="rate">
+												<?php
+												if (isset($item['qty']) && $item['qty'] > 1) {
+												?>
+												<?php $this->_("Main.review.quantity", false, $this->CurrencyFormat->truncateDecimal($item['qty'], 0));?>
+												<?php
+												}
+												?>
+												<strong class="rate_value"><?php echo $this->CurrencyFormat->format($price->price, $price->currency, array('code' => false));?></strong>
+											</span>
+										</aside>
+									</div>
+								</div>
+								
+								<?php
+								if ($this->Html->ifSet($item['package_options']) && $this->Html->ifSet($item['configoptions'])) {
+									foreach ($item['package_options'] as $option) {
+										if (array_key_exists($option->id, $item['configoptions'])) {
+											$qty = $option->type == "quantity" ? $item['configoptions'][$option->id] : 1;
+									?>
+										<div class="addon">
+											<h3><?php $this->Html->_($option->label);?></h3>
+											<div>
+												<div class="radios">
+													<label class="radio_btn">
+														<span>
+															<?php $this->Html->_($option->selected_value_name);?>
+														</span>
+													</label>
+												</div>
+												<aside class="aside_sec">
+													<span class="rate">
+														<?php
+														if ($qty > 1) {
+														?>
+														<?php $this->_("Main.review.quantity", false, $this->CurrencyFormat->truncateDecimal($qty, 0));?>
+														<?php
+														}
+														?>
+														<strong class="rate_value"><?php echo $this->CurrencyFormat->format($option->price->price, $option->price->currency, array('code' => false));?></strong>
+													</span>
+												</aside>
+											</div>
+											
+										</div>
+									<?php
+										}
+									}
+									unset($option);
+								}
+								?>
+								
+								<?php
+								if (isset($item['addons'])) {
+									foreach ($item['addons'] as $addon) {
+										$price = null;
+										foreach ($addon['package']->pricing as $pricing) {
+											if ($pricing->id == $addon['pricing_id']) {
+												$price = $pricing;
+												break;
+											}
+										}
+								?>
+								<div class="addon">
+									<h3><?php $this->Html->_($addon['package']->name);?></h3>
+									<p><?php $this->Html->_($addon['service_name']);?></p>
+									<?php echo ($this->Html->ifSet($addon['package']->description_html) != "" ? $addon['package']->description_html : $this->TextParser->encode($parser_syntax, $addon['package']->description));?>
+									
+									<a href="<?php echo $this->Html->safe($this->base_uri . "plugin/order/main/configure/" . $this->Html->ifSet($order_form->label) . "/?item=" . $this->Html->ifSet($addon['index']));?>"><?php $this->_("Main.review.edit_item");?></a> | <a href="<?php echo $this->Html->safe($this->base_uri . "plugin/order/main/remove/" . $this->Html->ifSet($order_form->label) . "/?item=" . $this->Html->ifSet($addon['index']));?>"><?php $this->_("Main.review.remove_item");?></a>
+									<div>
+										<div class="radios">
+											<label class="radio_btn">
+												<span>
+													<?php
+													if ($this->Html->ifSet($price->period) == "onetime")
+														echo $this->Html->ifSet($periods[$price->period]);
+													else {
+														$term = $this->Html->_($price->term, true);
+														echo $this->Html->concat(" ", $term, ($term == 1 ? $this->Html->ifSet($periods[$price->period]) : $this->Html->ifSet($periods[$price->period . "_plural"])));
+													}
+													?>
+												</span>
+											</label>
+										</div>
+										<aside class="aside_sec">
+											<span class="rate">
+												<?php
+												if (isset($addon['qty']) && $addon['qty'] > 1) {
+												?>
+												<?php $this->_("Main.review.quantity", false, $this->CurrencyFormat->truncateDecimal($addon['qty'], 0));?>
+												<?php
+												}
+												?>
+												<strong class="rate_value"><?php echo $this->CurrencyFormat->format($price->price, $price->currency, array('code' => false));?></strong>
+											</span>
+										</aside>
+									</div>
+								</div>
+								
+									<?php
+									if ($this->Html->ifSet($addon['package_options']) && $this->Html->ifSet($addon['configoptions'])) {
+										foreach ($addon['package_options'] as $option) {
+											if (array_key_exists($option->id, $addon['configoptions'])) {
+												$qty = $option->type == "quantity" ? $addon['configoptions'][$option->id] : 1;
+										?>
+											<div class="addon">
+												<h3><?php $this->Html->_($option->label);?></h3>
+												<div>
+													<div class="radios">
+														<label class="radio_btn">
+															<span>
+																<?php $this->Html->_($option->selected_value_name);?>
+															</span>
+														</label>
+													</div>
+													<aside class="aside_sec">
+														<span class="rate">
+															<?php
+															if ($qty > 1) {
+															?>
+															<?php $this->_("Main.review.quantity", false, $this->CurrencyFormat->truncateDecimal($qty, 0));?>
+															<?php
+															}
+															?>
+															<strong class="rate_value"><?php echo $this->CurrencyFormat->format($option->price->price, $option->price->currency, array('code' => false));?></strong>
+														</span>
+													</aside>
+												</div>
+												
+											</div>
+										<?php
+											}
+										}
+										unset($option);
+									}
+									?>
+								<?php
+									}
+								}
+								?>
+							</li>
+							<?php
+							}									
+							?>
+							<li class="last">
+								<div class="sub_total_box">
+								<?php
+								if ($this->Html->ifSet($totals)) {
+								?>
+
+									<div class="row">
+										<span><?php $this->_("Main.summary.totals.subtotal");?></span>
+										<strong><em><?php $this->Html->_($totals['subtotal']['amount_formatted']);?></em></strong>
+									</div>
+									<?php
+									if ($this->Html->ifSet($totals['fees']['setup'])) {
+									?>
+									<div class="row">
+										<span><?php $this->_("Main.summary.totals.setup_fee");?></span>
+										<em><?php $this->Html->_($totals['fees']['setup']['amount_formatted']);?></em>
+									</div>
+									<?php
+									}
+									if ($this->Html->ifSet($totals['discount']['amount'])) {
+									?>
+									<div class="row">
+										<span><?php $this->_("Main.summary.totals.discount");?></span>
+										<em><?php $this->Html->_($totals['discount']['amount_formatted']);?></em>
+									</div>
+									<?php
+									}
+									if ($this->Html->ifSet($totals['tax'])) {
+										foreach ($totals['tax'] as $tax) {
+									?>
+										<div class="row">
+											<span><?php $this->_("Main.summary.totals.tax", false, $tax['name'], $tax['percentage']);?></span>
+											<em><?php $this->Html->_($tax['amount_formatted']);?></em>
+										</div>
+									<?php
+										}
+									}
+									?>
+									<div class="row total">
+										<span><?php $this->_("Main.summary.totals.total");?></span>
+										<strong><em><?php $this->Html->_($totals['total_w_tax']['amount_formatted']);?></em></strong>
+									</div>
+								<?php
+								}
+								?>
+								</div>
+							</li>
+						</ul>
+						<div class="button_row">
+							<div class="btn submit right_btn"><a href="<?php echo $this->Html->safe($this->base_uri . "plugin/order/main/checkout/" . $this->Html->ifSet($order_form->label));?>"><?php $this->_("Main.review.checkout_btn");?></a></div>
+							<div class="btn submit right_btn"><a href="<?php echo $this->Html->safe($this->base_uri . "plugin/order/main/index/" . $this->Html->ifSet($order_form->label));?>"><?php $this->_("Main.review.order_more_btn");?></a></div>
+						</div>
+						<?php
+						}
+						else {
+						?>
+						<p><?php $this->_("Main.review.empty_cart", false, $this->Html->safe($this->base_uri . "plugin/order/main/index/" . $this->Html->ifSet($order_form->label)));?></p>
+						<?php
+						}
+						?>
+					</div>
+					<?php
+					$this->WidgetClient->end();
+					?>

@@ -1,0 +1,33 @@
+		<?php
+		echo $this->Html->ifSet($message);
+		
+		$this->WidgetClient->clear();
+		$this->WidgetClient->renderSubHead(false);
+		$this->WidgetClient->create($this->_("ClientContacts.edit.boxtitle_edit", true));
+		
+		$this->Form->create();
+		
+		// Set partials
+		echo $this->Html->ifSet($contact_info);
+		echo $this->Html->ifSet($phone_numbers);
+		?>
+		<div class="heading">
+			<h5><?php $this->_("ClientContacts.edit.heading_settings");?></h5>
+		</div>
+		<div class="pad">
+			<ul>
+				<li>
+					<?php
+					$this->Form->label($this->_("ClientContacts.edit.field_contact_type", true), "contact_type");
+					$this->Form->fieldSelect("contact_type", $this->Html->ifSet($contact_types), $this->Html->ifSet($vars->contact_type), array("id"=>"contact_type"));
+					?>
+				</li>
+			</ul>
+		</div>
+		<div class="button_row">
+			<div class="btn submit right_btn"><a class="submit" href="#"><?php $this->_("ClientContacts.edit.field_editsubmit");?></a></div>
+		</div>
+		<?php
+		$this->Form->end();
+		$this->WidgetClient->end();
+		?>
