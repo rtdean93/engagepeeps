@@ -1,0 +1,67 @@
+<?php echo $this->commonHeader; ?>
+
+<div class="heading options space">
+    <h5><img src="<?php echo $this->Html->safe($this->view_dir.'images/parkeddomains.png'); ?>"> <?php $this->_('Cpe.titles.parkeddomains'); ?></h5>
+</div>
+<div class="pad">
+    <p class="quote"><?php $this->_('Cpe.description.parkeddomains'); ?></p>
+    
+    <h5 class="page-header"><?php $this->_('Cpe.subtitles.parkeddomain.create'); ?></h5>
+    <div class="inner">
+    <?php $this->Form->create($this->uri.'create', array('id' => 'createParkedDomain', 'class' => 'default-form')); ?>
+    <ul>
+        <li>
+            <?php 
+                $this->Form->label($this->_('Cpe.label.domain', true), 'domainname');
+                $this->Form->fieldText('domainname', $this->Html->ifSet($this->post['domainname']));
+            ?>
+        </li>
+        <li>
+            <?php $this->_('Cpe.misc.parkedhint'); ?>
+        </li>
+    </ul>
+    <button type="submit" class="cpebutton big icon add withleftmargin cpExtendedSubmit"><?php $this->_('Cpe.button.createparkeddomain'); ?></button>    
+    <?php $this->Form->end(); ?>
+    </div>
+    
+    <div class="errorscontainer"></div>
+    
+    <h5 class="page-header"><?php $this->_('Cpe.subtitles.parkeddomain.list'); ?></h5>
+
+    <div class="table_sec">
+        <table class="table">
+            <thead>
+                <tr class="head">
+                    <td><?php $this->_('Cpe.th.subdomain'); ?></td>
+                    <td><?php $this->_('Cpe.th.basedir'); ?></td>
+                    <td><?php $this->_('Cpe.th.redirection'); ?></td>
+                    <td><?php $this->_('Cpe.th.actions'); ?></td>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach($this->domains->cpanelresult->data as $i => $domain): ?>
+                <tr>
+                    <td><?php $this->Html->_($domain->domain); ?></td>
+                    <td><?php $this->Html->_($domain->basedir); ?></td>
+                    <td><?php if($domain->status == 'not redirected'): ?> <?php $this->_('Cpe.misc.notredirected'); ?> <?php else: ?><a href="<?php echo $this->Html->safe(urldecode($domain->status)); ?>"><?php echo $this->Html->safe(urldecode($domain->status)); ?></a><?php endif; ?></td>
+                    <td style="width: 180px;">
+                        <div class="cpebutton-group">
+                            <a href="<?php echo $this->Html->safe($this->uri.'redirect/?domain='.$domain->domain) ;?>" class="cpebutton icon move cpanelExtendedAjaxRequest"><?php $this->_('Cpe.button.redirectto'); ?></a>
+                            <a href="<?php echo $this->Html->safe($this->uri.'delete/?domain='.$domain->domain); ?>" class="cpebutton danger icon trash cpanelExtendedAjaxRequest"><?php $this->_('Cpe.button.delete'); ?></a>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="odd_row modifyData" style="display: none;">
+                    <td colspan="5">
+                        
+                    </td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+    
+    <div class="clear"></div>
+</div>
+
+<?php echo $this->jsScripts; ?>

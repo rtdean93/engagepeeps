@@ -1,0 +1,21 @@
+<?php $this->Form->create($this->uri.'redirect', array('class' => 'cpanelExtendedAjaxExecute', 'data-do' => 'delete')); ?>
+    <table id="" style="padding-left: 150px;">
+       <tbody>
+          <tr>
+              <td style="width: 125px; text-align: right"><?php $this->_('Cpe.label.parkeddomain'); ?></td>
+              <td><?php $this->Html->_($this->domain); ?> <?php $this->_('Cpe.label.pointsto'); ?> --> <?php $this->Form->fieldText('url', 'http://'); ?></td>
+          </tr>
+          <tr>
+                <td></td>
+                <td colspan="2">
+                    <div class="cpebutton-group">
+                        <button type="submit" class="cpebutton icon move"><?php $this->_('Cpe.button.redirect'); ?></button>
+                        <button type="submit" class="cpebutton danger icon trash deleteRedir" data-action="<?php echo $this->Html->safe($this->uri.'disableredir'); ?>"><?php $this->_('Cpe.button.deleteredirect'); ?></button>
+                        <a href="#" class="hideFormBox withleftmargin"><?php $this->_('Cpe.label.close'); ?></a>
+                    </div>
+                </td>
+          </tr>
+       </tbody>
+    </table>
+    <?php $this->Form->fieldHidden('domain', $this->domain); ?>
+<?php $this->Form->end(); ?>

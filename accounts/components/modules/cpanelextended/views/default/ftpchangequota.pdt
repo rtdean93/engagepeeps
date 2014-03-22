@@ -1,0 +1,33 @@
+<script type="text/javascript">
+      $('[id^="ftpChangeQuota"]').validate({
+            rules : {
+                newquota : {
+                    number : true
+                }
+            } 
+       }); 
+</script>
+<?php $this->Form->create($this->uri.'changequota', array('class' => 'changeQuotaSubmit', 'data-do' => 'changequota', 'id' => 'ftpChangeQuota')); ?>
+    <table id="" style="padding-left: 250px;">
+       <tbody>
+          <tr>
+              <td style="width: 125px; text-align: right"><?php $this->_('Cpe.label.account'); ?></td>
+             <td><?php $this->Html->_($this->currentUser); ?></td>
+          </tr>
+          <tr>
+              <td style="width: 125px; text-align: right"><?php $this->_('Cpe.label.quota'); ?></td>
+             <td style="padding-bottom: 0px">
+                <?php $this->Form->fieldText('newquota', $this->Html->ifSet($this->post['newquota'], $this->currentQuota), array('size' => 30, 'placeholder' => $this->_('Cpe.misc.quotaholder', true))); ?>
+             </td>
+          </tr>
+          <tr>
+             <td>&nbsp;</td>
+             <td align="left" colspan="2">
+                 <button type="submit" class="cpebutton icon approve"><?php $this->_('Cpe.button.save'); ?></button>
+                 <a href="#" class="hideFormBox withleftmargin"><?php $this->_('Cpe.label.close'); ?></a>
+             </td>
+          </tr>
+       </tbody>
+    </table>
+    <?php $this->Form->fieldHidden('username', $_GET['username']); ?>
+<?php $this->Form->end(); ?>    

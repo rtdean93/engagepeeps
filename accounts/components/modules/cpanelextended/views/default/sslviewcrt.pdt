@@ -1,0 +1,15 @@
+<?php $this->Form->create(); ?>
+    <ul>
+        <li>
+            <?php $this->Form->label($this->_('Cpe.label.crtfile', true));
+                  $this->Form->fieldTextarea('keyfile', $this->data->crt, array('cols' => 70, 'rows' => 15, 'class' => 'selectAll')); ?>
+        </li>
+        <li>
+            <?php $this->Form->label($this->_('Cpe.label.keyfile', true));
+                  $this->Form->fieldTextarea('keyfile', $this->data->key, array('cols' => 70, 'rows' => 15, 'class' => 'selectAll')); ?>
+        </li>
+        <li>
+            <a href="#" class="hideFormBox"><?php $this->_('Cpe.label.close'); ?></a>
+        </li>
+    </ul>
+<?php $this->Form->end(); ?>

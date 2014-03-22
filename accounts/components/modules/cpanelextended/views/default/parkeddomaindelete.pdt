@@ -1,0 +1,17 @@
+<?php $this->Form->create($this->uri.'delete', array('class' => 'cpanelExtendedAjaxExecute', 'data-do' => 'delete')); ?>
+    <table id="" style="padding-left: 250px;">
+       <tbody>
+          <tr>
+             <td style="width: 125px; text-align: right"><?php $this->_('Cpe.label.account'); ?></td>
+             <td><?php $this->Html->_($this->domain); ?></td>
+          </tr>
+          <tr>
+             <td align="left" colspan="2">
+                 <button type="submit" class="cpebutton danger icon trash" style="margin-left: 80px;"><?php $this->_('Cpe.button.deleteparked'); ?></button>
+                 <a href="#" class="hideFormBox withleftmargin"><?php $this->_('Cpe.label.close'); ?></a>
+             </td>
+          </tr>
+       </tbody>
+    </table>
+    <?php $this->Form->fieldHidden('domain', $this->domain); ?>
+<?php $this->Form->end(); ?>    

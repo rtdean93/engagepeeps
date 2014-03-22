@@ -1,0 +1,76 @@
+<?php echo $this->commonHeader; ?>
+
+<div class="heading options space">
+    <h5><img src="<?php echo $this->Html->safe($this->view_dir.'images/subdomains.png'); ?>"> <?php $this->_('Cpe.titles.subdomains'); ?></h5>
+</div>
+<div class="pad">
+    <p class="quote"><?php $this->_('Cpe.description.subdomains'); ?></p>
+    <h5 class="page-header"><?php $this->_('Cpe.subtitles.subdomain.create'); ?></h5>
+        <div class="inner">
+    <?php $this->Form->create($this->uri.'create', array('id' => 'createSubdomain', 'class' => 'default-form')); ?>
+    <ul>
+        <li>
+            <?php 
+                $this->Form->label($this->_('Cpe.label.subdomain', true), 'subdomainame');
+                $this->Form->fieldText('subdomainname', $this->Html->ifSet($this->post['subdomainname']), array('id' => 'subdomainName', 'style' => 'width: 170px;'));
+            ?>
+            <span>.</span>
+            <?php 
+                $this->Form->fieldSelect('maindomain', array_combine(array_values($this->domains), $this->domains), $this->Html->ifSet($this->post['maindomain']), array('id' => 'mainDomain', 'style' => 'width: 180px;'));
+            ?>
+        </li>
+        <li>
+            <?php 
+                $this->Form->label($this->_('Cpe.label.docroot', true), 'subdomainroot');
+            ?>
+            <code>/home/<?php $this->Html->_($this->username); ?>/</code>
+            <?php
+                $this->Form->fieldText('subdomainroot', $this->Html->ifSet($this->post['subdomainroot']));
+            ?>
+        </li>
+    </ul>
+    <button type="submit" class="cpebutton big icon add withleftmargin cpExtendedSubmit"><?php $this->_('Cpe.button.createsubdomain'); ?></button>    
+    <?php $this->Form->end(); ?>
+    </div>
+    
+    <div class="errorscontainer"></div>
+    
+    <h5 class="page-header"><?php $this->_('Cpe.subtitles.subdomain.list'); ?></h5>
+
+    <div class="table_sec">
+        <table class="table">
+            <thead>
+                <tr class="head">
+                    <td><?php $this->_('Cpe.th.subdomain'); ?></td>
+                    <td><?php $this->_('Cpe.th.docroot'); ?></td>
+                    <td><?php $this->_('Cpe.th.redirection'); ?></td>
+                    <td><?php $this->_('Cpe.th.actions'); ?></td>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach($this->subdomains->cpanelresult->data as $i => $subdomain): ?>
+                <tr>
+                    <td><?php $this->Html->_($subdomain->domain); ?></td>
+                    <td><?php $this->Html->_($subdomain->dir); ?></td>
+                    <td><?php if($subdomain->status == 'not redirected'): ?> <?php $this->_('Cpe.misc.notredirected'); ?> <?php else: ?><a href="<?php echo $this->Html->safe(urldecode($subdomain->status)); ?>"><?php echo $this->Html->safe(urldecode($subdomain->status)); ?></a><?php endif; ?></td>
+                    <td style="width: 180px;">
+                        <div class="cpebutton-group">
+                            <a href="<?php echo $this->Html->safe($this->uri.'redirect/?domain='.$subdomain->domain) ;?>" class="cpebutton icon move cpanelExtendedAjaxRequest"><?php $this->_('Cpe.button.redirectto'); ?></a>
+                            <a href="<?php echo $this->Html->safe($this->uri.'delete/?domain='.$subdomain->domain); ?>" class="cpebutton danger icon trash cpanelExtendedAjaxRequest"><?php $this->_('Cpe.button.delete'); ?></a>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="odd_row modifyData" style="display: none;">
+                    <td colspan="5">
+                        
+                    </td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+        
+    <div class="clear"></div>
+</div>
+
+<?php echo $this->jsScripts; ?>

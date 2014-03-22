@@ -1,0 +1,4 @@
+<div class="sslError">
+    <h2><?php $this->_('Cpe.label.keysnotavlb'); ?></h2>
+    <h3><?php $this->_('Cpe.label.keysnotavlbhint'); ?></h3>
+</div>

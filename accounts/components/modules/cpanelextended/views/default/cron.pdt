@@ -1,0 +1,289 @@
+<?php echo $this->commonHeader; ?>
+
+<div class="heading options space">
+    <h5><img src="<?php echo $this->Html->safe($this->view_dir.'images/cron.png'); ?>"> <?php $this->_('Cpe.titles.cron'); ?></h5>
+</div>
+<div class="pad">
+    <p class="quote"><?php $this->_('Cpe.description.cron'); ?></p>
+    <h5 class="page-header"><?php $this->_('Cpe.subtitles.cron.create'); ?></h5>
+    
+    <div class="inner">
+    <?php $this->Form->create($this->uri.'create', array('class' => 'default-form', 'id' => 'createCronJob')); ?>
+    <ul>
+        <li>
+            <?php $this->Form->label($this->_('Cpe.label.commonsettings', true), 'commonsettings'); ?>
+            <select id="cronCommonSetting" style="width: 200px; float:left">
+                <option value="--"><?php $this->_('Cpe.cron.commonsettings'); ?></option>
+                <option value="* * * * *"><?php $this->_('Cpe.cron.everyminute'); ?></option>
+                <option value="*/5 * * * *"><?php $this->_('Cpe.cron.everyfive'); ?></option>
+                <option value="0,30 * * * *"><?php $this->_('Cpe.cron.twicehour'); ?></option>
+                <option value="0 * * * *"><?php $this->_('Cpe.cron.oncehour'); ?></option>
+                <option value="0 0,12 * * *"><?php $this->_('Cpe.cron.twiceday'); ?></option>
+                <option value="0 0 * * *"><?php $this->_('Cpe.cron.onceday'); ?></option>
+                <option value="0 0 * * 0"><?php $this->_('Cpe.cron.onceweek'); ?></option>
+                <option value="0 0 1,15 * *"><?php $this->_('Cpe.cron.firstand15th'); ?></option>
+                <option value="0 0 1 * *"><?php $this->_('Cpe.cron.oncemonth'); ?></option>
+                <option value="0 0 1 1 *"><?php $this->_('Cpe.cron.onceyear'); ?></option>
+             </select>
+        </li>
+        <li>
+            <?php $this->Form->label($this->_('Cpe.label.minute', true), 'minute');
+                  $this->Form->fieldText('jobminute', $this->Html->ifSet($this->post['jobminute']), array('style' => 'width: 50px; float: left;'));
+            ?>
+            <select style="margin-left: 10px; width: 195px" id="cronCommonSettingMinute">
+               <option value="--"><?php $this->_('Cpe.cron.commonsettings'); ?></option>
+               <option value="*"><?php $this->_('Cpe.cron.minute.everyminute'); ?></option>
+               <option value="*/2"><?php $this->_('Cpe.cron.minute.otherminute'); ?></option>
+               <option value="*/5"><?php $this->_('Cpe.cron.minute.everyfive'); ?></option>
+               <option value="*/10"><?php $this->_('Cpe.cron.minute.everyten'); ?></option>
+               <option value="*/15"><?php $this->_('Cpe.cron.minute.every15'); ?></option>
+               <option value="0,30"><?php $this->_('Cpe.cron.minute.every30'); ?></option>
+               <option value="--"><?php $this->_('Cpe.cron.minute.minutes'); ?></option>
+               <option value="0">:00 <?php $this->_('Cpe.cron.minute.topofhour'); ?></option>
+               <option value="1">:01 (1)</option>
+               <option value="2">:02 (2)</option>
+               <option value="3">:03 (3)</option>
+               <option value="4">:04 (4)</option>
+               <option value="5">:05 (5)</option>
+               <option value="6">:06 (6)</option>
+               <option value="7">:07 (7)</option>
+               <option value="8">:08 (8)</option>
+               <option value="9">:09 (9)</option>
+               <option value="10">:10 (10)</option>
+               <option value="11">:11 (11)</option>
+               <option value="12">:12 (12)</option>
+               <option value="13">:13 (13)</option>
+               <option value="14">:14 (14)</option>
+               <option value="15">:15 <?php $this->_('Cpe.cron.minute.quarterpast'); ?></option>
+               <option value="16">:16 (16)</option>
+               <option value="17">:17 (17)</option>
+               <option value="18">:18 (18)</option>
+               <option value="19">:19 (19)</option>
+               <option value="20">:20 (20)</option>
+               <option value="21">:21 (21)</option>
+               <option value="22">:22 (22)</option>
+               <option value="23">:23 (23)</option>
+               <option value="24">:24 (24)</option>
+               <option value="25">:25 (25)</option>
+               <option value="26">:26 (26)</option>
+               <option value="27">:27 (27)</option>
+               <option value="28">:28 (28)</option>
+               <option value="29">:29 (29)</option>
+               <option value="30">:30 <?php $this->_('Cpe.cron.minute.halfpast'); ?></option>
+               <option value="31">:31 (31)</option>
+               <option value="32">:32 (32)</option>
+               <option value="33">:33 (33)</option>
+               <option value="34">:34 (34)</option>
+               <option value="35">:35 (35)</option>
+               <option value="36">:36 (36)</option>
+               <option value="37">:37 (37)</option>
+               <option value="38">:38 (38)</option>
+               <option value="39">:39 (39)</option>
+               <option value="40">:40 (40)</option>
+               <option value="41">:41 (41)</option>
+               <option value="42">:42 (42)</option>
+               <option value="43">:43 (43)</option>
+               <option value="44">:44 (44)</option>
+               <option value="45">:45 <?php $this->_('Cpe.cron.minute.quartertil'); ?></option>
+               <option value="46">:46 (46)</option>
+               <option value="47">:47 (47)</option>
+               <option value="48">:48 (48)</option>
+               <option value="49">:49 (49)</option>
+               <option value="50">:50 (50)</option>
+               <option value="51">:51 (51)</option>
+               <option value="52">:52 (52)</option>
+               <option value="53">:53 (53)</option>
+               <option value="54">:54 (54)</option>
+               <option value="55">:55 (55)</option>
+               <option value="56">:56 (56)</option>
+               <option value="57">:57 (57)</option>
+               <option value="58">:58 (58)</option>
+               <option value="59">:59 (59)</option>
+            </select>
+        </li>
+        <li>
+            <?php $this->Form->label($this->_('Cpe.label.hour', true), 'hour');
+                  $this->Form->fieldText('jobhour', $this->Html->ifSet($this->post['jobhour']), array('style' => 'width: 50px; float: left;'));
+            ?>
+            
+            <select style="margin-left: 10px; width: 195px" id="cronCommonSettingHour">
+               <option value="--"><?php $this->_('Cpe.cron.commonsettings'); ?></option>
+               <option value="*"> (*)</option>
+               <option value="*/2"> (*/2)</option>
+               <option value="*/3"> (*/3)</option>
+               <option value="*/4"> (*/4)</option>
+               <option value="*/6"> (*/6)</option>
+               <option value="0,12"> (0,12)</option>
+               <option value="--"><?php $this->_('Cpe.cron.hour.hours'); ?></option>
+               <option value="0">12:00 a.m. <?php $this->_('Cpe.cron.hour.midnight'); ?> (0)</option>
+               <option value="1">1:00 a.m. (1)</option>
+               <option value="2">2:00 a.m. (2)</option>
+               <option value="3">3:00 a.m. (3)</option>
+               <option value="4">4:00 a.m. (4)</option>
+               <option value="5">5:00 a.m. (5)</option>
+               <option value="6">6:00 a.m. (6)</option>
+               <option value="7">7:00 a.m. (7)</option>
+               <option value="8">8:00 a.m. (8)</option>
+               <option value="9">9:00 a.m. (9)</option>
+               <option value="10">10:00 a.m. (10)</option>
+               <option value="11">11:00 a.m. (11)</option>
+               <option value="12">12:00 p.m. <?php $this->_('Cpe.cron.hour.noon'); ?> (12)</option>
+               <option value="13">1:00 p.m. (13)</option>
+               <option value="14">2:00 p.m. (14)</option>
+               <option value="15">3:00 p.m. (15)</option>
+               <option value="16">4:00 p.m. (16)</option>
+               <option value="17">5:00 p.m. (17)</option>
+               <option value="18">6:00 p.m. (18)</option>
+               <option value="19">7:00 p.m. (19)</option>
+               <option value="20">8:00 p.m. (20)</option>
+               <option value="21">9:00 p.m. (21)</option>
+               <option value="22">10:00 p.m. (22)</option>
+               <option value="23">11:00 p.m. (23)</option>
+            </select>
+        </li>
+        <li>
+            <?php $this->Form->label($this->_('Cpe.label.day', true), 'day');
+                  $this->Form->fieldText('jobday', $this->Html->ifSet($this->post['jobday']), array('style' => 'width: 50px; float: left;'));
+            ?>
+            <select style="margin-left: 10px; width: 195px" id="cronCommonSettingDay">
+                <option value="--"><?php $this->_('Cpe.cron.commonsettings'); ?></option>
+                <option value="*">Every day (*)</option>
+                <option value="*/2">Every other day (*/2)</option>
+                <option value="1,15">1st and 15th (1,15)</option>
+                <option value="--">-- Days --</option>
+                <option value="1">1st (1)</option>
+                <option value="2">2st (2)</option>
+                <option value="3">3st (3)</option>
+                <option value="4">4st (4)</option>
+                <option value="5">5st (5)</option>
+                <option value="6">6st (6)</option>
+                <option value="7">7st (7)</option>
+                <option value="8">8st (8)</option>
+                <option value="9">9st (9)</option>
+                <option value="10">10st (10)</option>
+                <option value="11">11st (11)</option>
+                <option value="12">12st (12)</option>
+                <option value="13">13st (13)</option>
+                <option value="14">14st (14)</option>
+                <option value="15">15st (15)</option>
+                <option value="16">16st (16)</option>
+                <option value="17">17st (17)</option>
+                <option value="18">18st (18)</option>
+                <option value="19">19st (19)</option>
+                <option value="20">20st (20)</option>
+                <option value="21">21st (21)</option>
+                <option value="22">22st (22)</option>
+                <option value="23">23st (23)</option>
+                <option value="24">24st (24)</option>
+                <option value="25">25st (25)</option>
+                <option value="26">26st (26)</option>
+                <option value="27">27st (27)</option>
+                <option value="28">28st (28)</option>
+                <option value="29">29st (29)</option>
+                <option value="30">30st (30)</option>
+                <option value="31">31st (31)</option>
+             </select>
+        </li>
+        <li>
+            <?php $this->Form->label($this->_('Cpe.label.month', true), 'jobmonth');
+                  $this->Form->fieldText('jobmonth', $this->Html->ifSet($this->post['jobmonth']), array('style' => 'width: 50px; float: left;'));
+            ?>
+            
+            <select style="margin-left: 10px; width: 195px;" id="cronCommonSettingMonth">
+                <option value="--"><?php $this->_('Cpe.cron.commonsettings'); ?></option>
+                <option value="*">Every month (*)</option>
+                <option value="*/2">Every other month (*/2)</option>
+                <option value="*/4">Every 3 months (*/4)</option>
+                <option value="1,7">Every 6 months (1,7)</option>
+                <option value="--">-- Months --</option>
+                <option value="1">January (1)</option>
+                <option value="2">February (2)</option>
+                <option value="3">March (3)</option>
+                <option value="4">April (4)</option>
+                <option value="5">May (5)</option>
+                <option value="6">June (6)</option>
+                <option value="7">July (7)</option>
+                <option value="8">August (8)</option>
+                <option value="9">September (9)</option>
+                <option value="10">October (10)</option>
+                <option value="11">November (11)</option>
+                <option value="12">December (12)</option>
+             </select>
+        </li>
+        <li>
+            <?php $this->Form->label($this->_('Cpe.label.weekday', true), 'weekday');
+                  $this->Form->fieldText('jobweekday', $this->Html->ifSet($this->post['jobweekday']), array('style' => 'width: 50px; float: left;'));
+            ?>
+            
+            <select style="margin-left: 10px; width: 195px;" id="cronCommonSettingWeekDay">
+                <option value="--">-- Common Settings --</option>
+                <option value="*">Every weekday (*)</option>
+                <option value="1-5">Mon thru Fri (1-5)</option>
+                <option value="0,6">Sat and Sun (6,0)</option>
+                <option value="1,3,5">Mon, Wed, Fri (1,3,5)</option>
+                <option value="2,4">Tues, Thurs (2,4)</option>
+                <option value="--">-- Weekdays --</option>
+                <option value="0">Sunday (0)</option>
+                <option value="1">Monday (1)</option>
+                <option value="2">Tuesday (2)</option>
+                <option value="3">Wednesday (3)</option>
+                <option value="4">Thursday (4)</option>
+                <option value="5">Friday (5)</option>
+                <option value="6">Saturday (6)</option>
+             </select>
+        </li>
+        <li>
+            <?php $this->Form->label($this->_('Cpe.label.command', true), 'command');
+                  $this->Form->fieldText('command', $this->Html->ifSet($this->post['command']));
+            ?>
+        </li>
+    </ul>
+    <button type="submit" class="cpebutton big icon add withleftmargin"><?php $this->_('Cpe.button.createcronjob'); ?></button>    
+    <?php $this->Form->end(); ?>
+    </div>
+    
+    <div class="errorscontainer"></div>
+    
+    <h5 class="page-header"><?php $this->_('Cpe.subtitles.cron.list'); ?></h5>
+    <div class="table_sec">
+        <table class="table">
+            <thead>
+                <tr class="head">
+                    <td><?php $this->_('Cpe.th.minute'); ?></td>
+                    <td><?php $this->_('Cpe.th.hour'); ?></td>
+                    <td><?php $this->_('Cpe.th.day'); ?></td>
+                    <td><?php $this->_('Cpe.th.month'); ?></td>
+                    <td><?php $this->_('Cpe.th.weekday'); ?></td>
+                    <td style="width: 500px;"><?php $this->_('Cpe.th.command'); ?></td>
+                    <td><?php $this->_('Cpe.th.actions'); ?></td>
+                </tr>
+            </thead>
+            <tbody>    
+                <?php foreach($this->jobs->cpanelresult->data as $job): if(isset($job->command)): ?>
+                <tr>
+                    <td><?php $this->Html->_($job->minute); ?></td>
+                    <td><?php $this->Html->_($job->hour); ?></td>
+                    <td><?php $this->Html->_($job->day); ?></td>
+                    <td><?php $this->Html->_($job->month); ?></td>
+                    <td><?php $this->Html->_($job->weekday); ?></td>
+                    <td style="width: 400px;"><code><?php $this->Html->_($job->command); ?></code></td>
+                    <td style="width: 180px;">
+                        <div class="cpebutton-group">
+                            <a href="<?php echo $this->Html->safe($this->uri.'edit/?line='.$job->count.'&data='.  base64_encode(serialize($job))); ?>" class="cpebutton icon edit cpanelExtendedAjaxRequest"><?php $this->_('Cpe.button.edit'); ?></a>
+                            <a href="<?php echo $this->Html->safe($this->uri.'delete/?line='.$job->count); ?>" class="cpebutton danger icon trash deleteCronJob cpanelExtendedAjaxRequest"><?php $this->_('Cpe.button.delete'); ?></a>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="odd_row modifyData" style="display: none;">
+                    <td colspan="7">
+                        
+                    </td>
+                </tr>
+                <?php endif; endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+    <div class="clear"></div>
+</div>
+
+<?php echo $this->jsScripts; ?>

@@ -1,0 +1,94 @@
+<?php echo $this->commonHeader; ?>
+
+<div class="heading options space">
+    <h5><img src="<?php echo $this->Html->safe($this->view_dir.'images/emails.png'); ?>"> <?php $this->_('Cpe.titles.emails'); ?></h5>
+</div>
+<div class="pad">
+    <p class="quote">
+        <?php $this->_('Cpe.description.emails'); ?>
+    </p>
+    
+    <h5 class="page-header"><?php $this->_('Cpe.subtitles.email.create'); ?></h5>
+    
+    <div class="inner">
+    <?php $this->Form->create($this->uri.'create', array('id' => 'createEmailAccount', 'class' => 'default-form')); ?>
+    <ul>
+        <li>
+            <?php 
+                $this->Form->label($this->_('Cpe.label.username', true), 'emailusername');
+                $this->Form->fieldText('emailusername', $this->Html->ifSet($this->post['emailusername']), array('id' => 'emailUsername', 'style' => 'width: 150px;'));
+            ?>
+            <span>@</span>
+            <?php 
+                $this->Form->fieldSelect('emaildomain', array_combine(array_values($this->domains), $this->domains), $this->Html->ifSet($this->post['emaildomain']), array('id' => 'emailDomain', 'style' => 'width: 180px;'));
+            ?>
+        </li>
+        <li>
+            <?php 
+                $this->Form->label($this->_('Cpe.label.password', true), 'emailpassword');
+                $this->Form->fieldPassword('emailpassword', array('id' => 'emailpassword', 'style' => 'float: left;'));
+            ?>
+            <span><button type="button" class="cpebutton icon lock withleftmargin generatePassword" style="float: left;" data-field1="emailpassword" data-field2="emailpasswordconfirm"><?php echo $this->_('Cpe.button.generatepassword'); ?></button></span>    
+        </li>
+        <li>
+            <?php 
+                $this->Form->label($this->_('Cpe.label.passwordconfirm', true), 'emailpasswordconfirm');
+                $this->Form->fieldPassword('emailpasswordconfirm', array('id' => 'emailpasswordconfirm'));
+            ?>
+        </li>
+        <li id="generatedPassword" style="display: none;"><?php $this->_('Cpe.misc.genpasswordtext'); ?> <strong></strong></li>
+        <li>
+            <?php 
+                $this->Form->label($this->_('Cpe.label.quota', true), 'emailquota');
+                $this->Form->fieldText('emailquota', $this->Html->ifSet($this->post['emailquota'], 0), array('id' => 'emailQuota', 'style' => 'width: 50px;'));
+            ?>  <span><?php $this->_('Cpe.misc.quotahint'); ?></span>
+        </li>
+    </ul>
+    <button type="submit" class="cpebutton big icon add withleftmargin cpExtendedSubmit" id="createEmailAccount"><?php $this->_('Cpe.button.createaccount'); ?></button>    
+    <?php $this->Form->end(); ?>
+    </div>
+    
+    <div class="errorscontainer"></div>
+    
+    <h5 class="page-header"><?php $this->_('Cpe.subtitles.email.list'); ?></h5>
+    <div class="table_sec">
+        <table class="table">
+            <thead>
+                <tr class="head">
+                    <td><?php $this->_('Cpe.th.login'); ?></td>
+                    <td><?php $this->_('Cpe.th.quota'); ?></td>
+                    <td><?php $this->_('Cpe.th.diskusage'); ?></td>
+                    <td><?php $this->_('Cpe.th.actions'); ?></td>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach($this->accounts->cpanelresult->data as $i => $account): ?>
+                <tr>
+                    <td style="width: 360px;"><?php $this->Html->_($account->login); ?></td>
+                    <td><?php echo is_numeric($account->diskquota) ? sprintf('%s MB', $account->diskquota) : $account->diskquota; ?></td>
+                    <td>
+                        <?php echo sprintf('%s%%', $account->diskusedpercent); ?>
+                        <div style="padding: 0px; margin: 5px 0; border: 1px solid black; width: 70px; height: 10px;">
+                            <div style="height: 10px; width: <?php echo $account->diskusedpercent; ?>%; background-color: green;"></div>
+                        </div>
+                    </td>
+                    <td style="width: 320px;">
+                        <div class="cpebutton-group">
+                            <a href="<?php echo $this->Html->safe($this->uri.'changequota/?currentQuota='.$account->diskquota.'&username='.$account->login);?>" class="cpebutton icon settings cpanelExtendedAjaxRequest"><?php $this->_('Cpe.button.changequota'); ?></a>
+                            <a href="<?php echo $this->Html->safe($this->uri.'changepassword/?username='.$account->login); ?>" class="cpebutton icon key cpanelExtendedAjaxRequest"><?php $this->_('Cpe.button.changepassword'); ?></a>
+                            <a href="<?php echo $this->Html->safe($this->uri.'delete/?username='.$account->login); ?>" class="cpebutton danger icon trash deleteEmail cpanelExtendedAjaxRequest"><?php $this->_('Cpe.button.delete'); ?></a>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="odd_row modifyData" style="display: none;">
+                    <td colspan="5">
+                        
+                    </td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+    <div class="clear"></div>
+</div>
+<?php echo $this->jsScripts; ?>

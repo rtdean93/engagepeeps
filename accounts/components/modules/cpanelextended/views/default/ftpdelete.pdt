@@ -1,0 +1,21 @@
+<?php $this->Form->create($this->uri.'delete', array('class' => 'deleteFtpSubmit', 'data-do' => 'delete')); ?>
+    <table id="" style="padding-left: 250px;">
+       <tbody>
+          <tr>
+              <td style="width: 125px; text-align: right"><?php $this->_('Cpe.label.account'); ?></td>
+             <td><?php $this->Html->_($this->username); ?></td>
+          </tr>
+          <tr>
+             <td align="left" colspan="2">
+                 <div class="cpebutton-group">
+                     <button type="submit" class="cpebutton danger icon remove"><?php $this->_('Cpe.button.deleteacct'); ?></button>
+                     <button type="submit" class="cpebutton danger icon trash"><?php $this->_('Cpe.button.destroyacct'); ?></button>
+                     <a href="#" class="hideFormBox withleftmargin"><?php $this->_('Cpe.label.close'); ?></a>
+                 </div>
+             </td>
+          </tr>
+       </tbody>
+    </table>
+    <?php $this->Form->fieldHidden('destroy', 0); ?>
+    <?php $this->Form->fieldHidden('username', $this->username); ?>
+<?php $this->Form->end(); ?>    

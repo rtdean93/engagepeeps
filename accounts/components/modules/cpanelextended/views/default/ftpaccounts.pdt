@@ -1,0 +1,112 @@
+<?php echo $this->commonHeader; ?>
+
+<div class="heading options space">
+    <h5><img src="<?php echo $this->Html->safe($this->view_dir.'images/ftp.png'); ?>"> <?php $this->_('Cpe.titles.ftp'); ?></h5>
+</div>
+<div class="pad">
+    <p class="quote"><?php $this->_('Cpe.description.ftp'); ?></p>
+
+    <h5 class="page-header"><?php $this->_('Cpe.subtitles.ftp.create'); ?></h5>
+    
+    <div class="inner">
+    <?php $this->Form->create($this->uri.'create', array('id' => 'createFtpAccount', 'class' => 'default-form')); ?>
+    <ul>
+        <li>
+            <?php 
+                $this->Form->label($this->_('Cpe.label.username', true), 'ftpusername');
+                $this->Form->fieldText('ftpusername', $this->Html->ifSet($this->post['username']), array('id' => 'ftpUsername'));
+            ?>
+        </li>
+        <li>
+            <?php 
+                $this->Form->label($this->_('Cpe.label.password', true), 'ftppassword');
+                $this->Form->fieldPassword('ftppassword', array('style' => 'float: left;', 'id' => 'ftppassword'));
+            ?>
+            <span><button type="button" class="cpebutton icon lock generatePassword withleftmargin" style="float: left;" data-field1="ftppassword" data-field2="ftppasswordconfirm">Generate Password</button></span>     
+        </li>
+        <li>
+            <?php 
+                $this->Form->label($this->_('Cpe.label.passwordconfirm', true), 'ftppasswordconfirm');
+                $this->Form->fieldPassword('ftppasswordconfirm', array('id' => 'ftppasswordconfirm'));
+            ?>
+        </li>
+        <li id="generatedPassword" style="display: none;"><?php $this->_('Cpe.misc.genpasswordtext'); ?> <strong></strong></li>
+        <li>
+            <?php 
+                $this->Form->label($this->_('Cpe.label.directory', true), 'directory'); ?>
+                <code>/home/<?php $this->Html->_($this->fields->cpanel_username); ?>/</code>
+            <?php
+                $this->Form->fieldText('directory', $this->Html->ifSet($this->post['directory']), array('id' => 'ftpDirectory'));
+            ?>
+        </li>
+        <li>
+            <?php 
+                $this->Form->label($this->_('Cpe.label.quota', true), 'ftpquota');
+                $this->Form->fieldText('ftpquota', $this->Html->ifSet($this->post['ftpquota'], 0), array('id' => 'ftpQuota', 'style' => 'width: 50px;'));
+            ?>  <span><?php $this->_('Cpe.misc.quotahint'); ?></span>
+        </li>
+    </ul>
+    <button type="submit" class="cpebutton big icon add withleftmargin" id="createFtpAccount"><?php $this->_('Cpe.button.createaccount'); ?></button>    
+    <?php $this->Form->end(); ?>
+    </div>
+    
+    <div class="errorscontainer"></div>
+    
+    <h5 class="page-header"><?php $this->_('Cpe.subtitles.ftp.list'); ?></h5>
+    <div class="table_sec">
+        <table class="table">
+            <thead>
+                <tr class="head">
+                    <td><?php $this->_('Cpe.th.login'); ?></td>
+                    <td><?php $this->_('Cpe.th.path'); ?></td>
+                    <td><?php $this->_('Cpe.th.quota'); ?></td>
+                    <td><?php $this->_('Cpe.th.diskusage'); ?></td>
+                    <td><?php $this->_('Cpe.th.actions'); ?></td>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach($this->accounts->cpanelresult->data as $i => $account): if($account->accttype == "sub"): ?>
+                <tr>
+                    <td><?php $this->Html->_($account->serverlogin); ?></td>
+                    <td><?php $this->Html->_($account->dir); ?></td>
+                    <td><?php echo $this->Html->safe(is_numeric($account->diskquota) ? sprintf('%s MB', $account->diskquota) : $account->diskquota); ?></td>
+                    <td><?php echo $this->Html->safe(sprintf('%s%%', $account->diskusedpercent)); ?></td>
+                    <td style="width: 320px;">
+                        <div class="cpebutton-group">
+                            <a href="<?php echo $this->Html->safe($this->uri.'changepassword/?username='.$account->login); ?>" class="cpanelExtendedAjaxRequest cpebutton icon key"><?php $this->_('Cpe.button.changepassword'); ?></a>
+                            <a href="<?php echo $this->Html->safe($this->uri.'changequota/?currentQuota='.$account->diskquota.'&username='.$account->login);?>" class="changeFtpQuota cpebutton icon settings"><?php $this->_('Cpe.button.changequota'); ?></a>
+                            <a href="<?php echo $this->Html->safe($this->uri .'delete/?username='.$account->login); ?>" class="deleteFtp cpebutton danger icon trash"><?php $this->_('Cpe.button.delete'); ?></a>
+                        </div> 
+                    </td>
+                </tr>
+                <tr class="odd_row modifyData" style="display: none;">
+                    <td colspan="5"> 
+                    </td>
+                </tr>
+                <?php endif; endforeach; ?>
+                <tr class="head">
+                    <td colspan="5"><?php $this->_('Cpe.th.ftpspecial'); ?></td>
+                </tr>
+                <?php foreach($this->accounts->cpanelresult->data as $i => $account): if($account->accttype != "sub"): ?>
+                <tr>
+                    <td><?php $this->Html->_($account->serverlogin); ?></td>
+                    <td><?php $this->Html->_($account->dir); ?></td>
+                    <td><?php echo $this->Html->safe(is_numeric($account->diskquota) ? sprintf('%s MB', $account->diskquota) : $account->diskquota); ?></td>
+                    <td><?php echo $this->Html->safe(sprintf('%s%%', $account->diskusedpercent)); ?></td>
+                    <td style="width: 320px;">
+                        <div class="cpebutton-group">
+                            <a href="<?php echo $this->Html->safe($this->uri.'changequota/?currentQuota='.$account->diskquota.'&username='.$account->login);?>" class="changeFtpQuota cpebutton icon settings"><?php $this->_('Cpe.button.changequota'); ?></a>
+                        </div> 
+                    </td>
+                </tr>
+                <tr class="odd_row modifyData" style="display: none;">
+                    <td colspan="5"> 
+                    </td>
+                </tr>
+                <?php endif; endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+    <div class="clear"></div>
+</div>
+<?php echo $this->jsScripts; ?>

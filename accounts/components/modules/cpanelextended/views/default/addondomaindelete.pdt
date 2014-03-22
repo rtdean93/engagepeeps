@@ -1,0 +1,16 @@
+<?php $this->Form->create($this->uri.'delete', array('class' => 'cpanelExtendedAjaxExecute', 'data-do' => 'delete')); ?>
+    <table id="" style="padding-left: 250px;">
+       <tbody>
+          <tr>
+             <td style="width: 125px; text-align: right">Subdomain:</td>
+             <td><?php $this->Html->_($this->subdomain); ?></td>
+          </tr>
+          <tr>
+             <td align="left" colspan="2">
+                <button type="submit" class="btn">Delete Subdomain</button>
+             </td>
+          </tr>
+       </tbody>
+    </table>
+    <?php $this->Form->fieldHidden('subdomainname', $this->subdomain); ?>
+<?php $this->Form->end(); ?>    

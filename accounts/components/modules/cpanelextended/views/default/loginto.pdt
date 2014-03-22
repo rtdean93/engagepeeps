@@ -1,0 +1,30 @@
+<?php echo $this->commonHeader; ?>
+
+<div class="heading options space">
+    <h5><?php $this->_('Cpe.titles.loginto'); ?></h5>
+</div>
+<div class="pad cpebutton-group" style="text-align: center;">
+    <p style="font-style:italic; float: left;"></p>
+    <form method="post" action="<?php echo $this->Html->safe(sprintf('https://%s:2083/login/', $this->server->meta->host_name)); ?>" target="_blank" style="width: auto;">
+        <input type="hidden" name="user" value="<?php $this->Html->_($this->fields->cpanel_username); ?>">
+        <input type="hidden" name="pass" value="<?php $this->Html->_($this->fields->cpanel_password); ?>">
+        <button class="cpebutton big" type="submit" style="width: 200px;"><img src="<?php $this->Html->_($this->view_dir); ?>images/keys.png"> cPanel</button>
+    </form>
+
+    <form method="post" action="<?php echo $this->Html->safe(sprintf('https://%s:2083/login/', $this->server->meta->host_name)); ?>" target="_blank" style="width: auto;">
+        <input type="hidden" name="user" value="<?php $this->Html->_($this->fields->cpanel_username); ?>">
+        <input type="hidden" name="pass" value="<?php $this->Html->_($this->fields->cpanel_password); ?>">
+        <input type="hidden" name="goto_uri" value="/frontend/x3/sql/PhpMyAdmin.html">
+        <button class="cpebutton big withleftmargin" type="submit" style="width: 200px;"><img src="<?php $this->Html->_($this->view_dir); ?>images/phpmyadmin.png"> phpMyAdmin</button>
+    </form>
+    
+    <form method="post" action="<?php echo $this->Html->safe(sprintf('https://%s:2096/login/', $this->server->meta->host_name)); ?>" target="_blank" style="width: auto;">
+        <input type="hidden" name="user" value="<?php $this->Html->_($this->fields->cpanel_username); ?>">
+        <input type="hidden" name="pass" value="<?php $this->Html->_($this->fields->cpanel_password); ?>">
+        <!--<input type="hidden" name="goto_uri" value="/frontend/x3/webmaillogin.html">-->
+        <button class="cpebutton big withleftmargin" type="submit" style="width: 200px;"><img src="<?php $this->Html->_($this->view_dir); ?>images/email_key.png"> Webmail</button>
+    </form>
+    <div class="clear"></div>
+</div>
+
+<?php echo $this->jsScripts; ?>

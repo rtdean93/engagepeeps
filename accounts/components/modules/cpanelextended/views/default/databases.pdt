@@ -1,0 +1,170 @@
+<?php echo $this->commonHeader; ?>
+
+<div class="heading options space">
+    <h5><img src="<?php echo $this->Html->safe($this->view_dir.'images/databases.png'); ?>"> <?php $this->_('Cpe.titles.databases'); ?></h5>
+</div>
+<div class="pad">
+    <p class="quote"><?php $this->_('Cpe.description.databases'); ?></p>
+    
+    <h5 class="page-header"><?php $this->_('Cpe.subtitles.db.create'); ?></h5>
+    
+    <div class="inner">
+        <?php $this->Form->create($this->uri.'adddb', array('class' => 'default-form', 'id' => 'createMysqlDatabase')); ?>
+        <ul>
+            <li>
+                <?php 
+                    $this->Form->label($this->_('Cpe.label.dbname', true), 'dbhname'); ?>
+                <span><?php $this->Html->_($this->username); ?>_</span>
+                <?php
+                    $this->Form->fieldText('dbname');
+                ?>
+            </li>
+        </ul>
+        <button type="submit" class="cpebutton big icon add withleftmargin"><?php $this->_('Cpe.button.createdb'); ?></button>   
+        <?php $this->Form->end(); ?>
+    </div>
+    
+    <div class="errorscontainer"></div>
+
+    <h5 class="page-header"><?php $this->_('Cpe.subtitles.db.dblist'); ?></h5>
+    <div class="table_sec">
+        <table class="table">
+            <thead>
+                <tr class="head">
+                    <td><?php $this->_('Cpe.th.dbname'); ?></td>
+                    <td><?php $this->_('Cpe.th.size'); ?></td>
+                    <td><?php $this->_('Cpe.th.actions'); ?></td>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach($this->databases->cpanelresult->data as $i => $account): ?>
+                <tr>
+                    <td><?php $this->Html->_($account->db); ?></td>
+                    <td><?php $this->Html->_($account->sizemeg); ?> MB</td>
+                    <td style="width: 120px;">
+                        <div class="cpebutton-group">
+                            <!--<a href="<?php echo $this->Html->safe($this->uri.'changepassword/?dbname='.$account->db); ?>" class="cpanelExtendedAjaxRequest">Change password</a>-->
+                            <a href="<?php echo $this->Html->safe($this->uri.'deletedb/?dbname='.$account->db); ?>" class="cpanelExtendedAjaxRequest cpebutton danger icon trash"><?php $this->_('Cpe.button.delete'); ?></a>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="odd_row modifyData" style="display: none;">
+                    <td colspan="5">
+                        
+                    </td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+    <div class="clear"></div>
+    
+    <h5 class="page-header"><?php $this->_('Cpe.subtitles.db.usercreate'); ?></h5>
+    
+    <div class="inner">
+    <?php $this->Form->create($this->uri.'adduser', array('class' => 'default-form', 'id' => 'createMysqlUser')); ?>
+    <ul>
+        <li>
+            <?php 
+                $this->Form->label($this->_('Cpe.label.username', true), 'dbusername'); ?>
+            <span><?php $this->Html->_($this->fields->cpanel_username); ?>_</span>
+            <?php    $this->Form->fieldText('dbusername');
+            ?>
+        </li>
+        <li>
+            <?php 
+                $this->Form->label($this->_('Cpe.label.password', true), 'dbpassword');
+                $this->Form->fieldPassword('dbpassword', array('id' => 'dbpassword', 'style' => 'float: left;'));
+            ?>
+            <span><button type="button" class="cpebutton icon lock generatePassword withleftmargin" style="float: left;" data-field1="dbpassword" data-field2="dbpasswordconfirm"><?php $this->_('Cpe.button.generatepassword'); ?></button></span>     
+        </li>
+        <li>
+            <?php 
+                $this->Form->label($this->_('Cpe.label.passwordconfirm', true), 'dbpasswordconfirm');
+                $this->Form->fieldPassword('dbpasswordconfirm', array('id' => 'dbpasswordconfirm'));
+            ?>
+        </li>
+        <li id="generatedPassword" style="display: none;"><?php $this->_('Cpe.misc.genpasswordtext'); ?> <strong></strong></li>
+    </ul>
+    <button type="submit" class="cpebutton big icon user withleftmargin"><?php $this->_('Cpe.button.createuser'); ?></button> 
+    <?php $this->Form->end(); ?>
+    </div>
+    
+    <div class="errorscontainer"></div>
+    <?php if(count($this->dboptions) and count($this->useroptions)): ?>
+    <h5 class="page-header"><?php $this->_('Cpe.subtitles.db.addusertodb'); ?></h5>
+    
+    <div class="inner">
+    <?php $this->Form->create($this->uri.'addusertodb', array('class' => 'default-form', 'id' => 'addUserToDb')); ?>
+        <ul>
+            <li>
+                <?php $this->Form->label($this->_('Cpe.label.dbname', true), 'database');
+                      $this->Form->fieldSelect('database', $this->dboptions, $this->Html->ifSet($this->post['database'])); ?>
+            </li>
+            <li>
+                <?php $this->Form->label($this->_('Cpe.label.username', true), 'dbuser'); 
+                      $this->Form->fieldSelect('dbuser', $this->useroptions, $this->Html->ifSet($this->post['dbuser'])); ?>
+            </li>
+            <li>
+                <?php $this->Form->label($this->_('Cpe.label.privileges', true), 'privileges'); ?>
+                <label style="float: left; margin-right: 15px;"><?php $this->Form->fieldCheckbox('privileges[]', 'alter', true, array('class' => 'privileges')); ?> ALTER</label>
+                <label style="float: left; margin-right: 15px;"><?php $this->Form->fieldCheckbox('privileges[]', 'temporary', true, array('class' => 'privileges')); ?> CREATE TEMPORARY TABLES</label>
+                <label style="float: left; margin-right: 15px;"><?php $this->Form->fieldCheckbox('privileges[]', 'routine', true, array('class' => 'privileges')); ?> CREATE ROUTINE</label>
+                <label style="float: left; margin-right: 15px;"><?php $this->Form->fieldCheckbox('privileges[]', 'create', true, array('class' => 'privileges')); ?> CREATE</label>
+                <label style="float: left; margin-right: 15px;"><?php $this->Form->fieldCheckbox('privileges[]', 'delete', true, array('class' => 'privileges')); ?> DELETE</label>
+                <label style="float: left; margin-right: 15px;"><?php $this->Form->fieldCheckbox('privileges[]', 'drop', true, array('class' => 'privileges')); ?> DROP</label>
+                <label style="float: left; margin-right: 15px;"><?php $this->Form->fieldCheckbox('privileges[]', 'select', true, array('class' => 'privileges')); ?> SELECT</label>
+                <label style="float: left; margin-right: 15px;"><?php $this->Form->fieldCheckbox('privileges[]', 'insert', true, array('class' => 'privileges')); ?> INSERT</label>
+                <label style="float: left; margin-right: 15px;"><?php $this->Form->fieldCheckbox('privileges[]', 'update', true, array('class' => 'privileges')); ?> UPDATE</label>
+                <label style="float: left; margin-right: 15px;"><?php $this->Form->fieldCheckbox('privileges[]', 'references', true, array('class' => 'privileges')); ?> REFERENCES</label>
+                <label style="float: left; margin-right: 15px;"><?php $this->Form->fieldCheckbox('privileges[]', 'index', true, array('class' => 'privileges')); ?> INDEX</label>
+                <label style="float: left; margin-right: 15px;"><?php $this->Form->fieldCheckbox('privileges[]', 'lock', true, array('class' => 'privileges')); ?> LOCK</label>
+                <label style="float: left; margin-right: 15px;" id="togglePrivileges"><?php $this->Form->fieldCheckbox('privileges[]', 'all', true); ?> ALL</label>
+            </li>
+        </ul>
+        <button type="submit" class="cpebutton big icon fork withleftmargin"><?php $this->_('Cpe.button.addusertodb'); ?></button> 
+    <?php $this->Form->end(); ?>
+    </div>
+    
+    <div class="errorscontainer"></div>
+    <?php endif; ?>
+    <h5 class="page-header"><?php $this->_('Cpe.subtitles.db.userlist'); ?></h5>
+    <div class="table_sec">
+        <table class="table">
+            <thead>
+                <tr class="head">
+                    <td><?php $this->_('Cpe.th.username'); ?></td>
+                    <td><?php $this->_('Cpe.th.linkeddbs'); ?></td>
+                    <td><?php $this->_('Cpe.th.actions'); ?></td>
+                </tr>
+            </thead>
+            <tbody>    
+                <?php foreach($this->users->cpanelresult->data as $user): ?>
+                <tr>
+                    <td><?php $this->Html->_($user->user); ?></td>
+                    <td>
+                        <div class="cpebutton-group">
+                        <?php foreach($user->dblist as $list): ?>
+                         <a href="<?php echo $this->Html->safe($this->uri.'changeprivileges/?database='.$list->db.'&username='.$user->user); ?>" class="cpebutton icon edit cpanelExtendedAjaxRequest"><?php $this->Html->_($list->db); ?></a> 
+                        <?php endforeach; ?>
+                        </div>
+                    <td style="width: 120px;">
+                        <!--<a href="#">Change password</a>-->
+                        <div class="cpebutton-group">
+                            <a href="<?php echo $this->Html->safe($this->uri.'deleteuser/?dbuser='.$user->user); ?>" class="cpanelExtendedAjaxRequest cpebutton danger icon trash"><?php $this->_('Cpe.button.delete'); ?></a>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="odd_row modifyData" style="display: none;">
+                    <td colspan="5">
+                        
+                    </td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+    <div class="clear"></div>
+</div>
+
+<?php echo $this->jsScripts; ?>

@@ -1,0 +1,95 @@
+<?php echo $this->commonHeader; ?>
+
+<div class="heading options space">
+    <h5><img src="<?php echo $this->Html->safe($this->view_dir.'images/addondomains.png'); ?>"> <?php $this->_('Cpe.titles.addondomains'); ?></h5>
+</div>
+<div class="pad">
+    <p class="quote"><?php $this->_('Cpe.description.addondomains'); ?></p>
+    
+    <h5 class="page-header"><?php $this->_('Cpe.subtitles.addondomain.create'); ?></h5>
+    <div class="inner">
+    <?php $this->Form->create($this->uri.'create', array('id' => 'createAddonDomain', 'class' => 'default-form')); ?>
+    <ul>
+        <li>
+            <?php 
+                $this->Form->label($this->_('Cpe.label.domain', true), 'newdomain');
+                $this->Form->fieldText('newdomain', $this->Html->ifSet($this->post['newdomain']), array('id' => 'addondomainname'));
+            ?>
+        </li>
+        <li>
+            <?php 
+                $this->Form->label($this->_('Cpe.label.domainuser', true), 'domainusername');
+                $this->Form->fieldText('domainusername', $this->Html->ifSet($this->post['username']), array('id' => 'addondomainuser'));
+            ?>
+        </li>
+        <li>
+            <?php 
+                $this->Form->label($this->_('Cpe.label.docroot', true), 'directory'); ?>
+            <code>/home/<?php $this->Html->_($this->username); ?>/</code>
+            <?php
+                $this->Form->fieldText('directory', $this->Html->ifSet($this->post['directory']), array('id' => 'addondomainroot'));
+            ?>
+        </li>
+        <li>
+            <?php 
+                $this->Form->label($this->_('Cpe.label.password', true), 'domainpassword');
+                $this->Form->fieldPassword('domainpassword', array('style' => 'float: left;', 'id' => 'domainpassword'));
+            ?>
+            <span><button type="button" class="cpebutton icon lock withleftmargin generatePassword" style="float: left;" data-field1="domainpassword" data-field2="domainpasswordconfirm"><?php $this->_('Cpe.button.generatepassword'); ?></button></span>     
+        </li>
+        <li>
+            <?php 
+                $this->Form->label($this->_('Cpe.label.passwordconfirm', true), 'domainpasswordconfirm');
+                $this->Form->fieldPassword('domainpasswordconfirm', array('id' => 'domainpasswordconfirm'));
+            ?>
+        </li>
+        <li id="generatedPassword" style="display: none;"><?php $this->_('Cpe.misc.genpasswordtext'); ?> <strong></strong></li>
+        <li><?php $this->_('Cpe.misc.addonhint'); ?></li>
+    </ul>
+    <button type="submit" class="cpebutton big icon add withleftmargin cpExtendedSubmit"><?php $this->_('Cpe.button.createaddondomain'); ?></button>    
+    <?php $this->Form->end(); ?>
+    </div>
+    
+    <div class="errorscontainer"></div>
+    
+    <h5 class="page-header"></h5>
+    
+    <div class="table_sec">
+        <table class="table">
+            <thead>
+                <tr class="head">
+                    <td><?php $this->_('Cpe.th.domain'); ?></td>
+                    <td><?php $this->_('Cpe.th.username'); ?></td>
+                    <td><?php $this->_('Cpe.th.docroot'); ?></td>
+                    <td><?php $this->_('Cpe.th.redirection'); ?></td>
+                    <td><?php $this->_('Cpe.th.actions'); ?></td>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach($this->domains->cpanelresult->data as $i => $domain): ?>
+                <tr>
+                    <td style="width: 150px; word-break: break-word;"><?php $this->Html->_($domain->domain); ?></td>
+                    <td style="width: 150px; word-break: break-word;"><?php $this->Html->_($domain->subdomain); ?></td>
+                    <td style="width: 270px; word-break: break-word;"><?php $this->Html->_($domain->dir); ?></td>
+                    <td><?php $this->Html->_($domain->status); ?></td>
+                    <td>
+                        <div class="cpebutton-group">
+                            <a href="<?php echo $this->Html->safe($this->uri.'redirect/?domain='.$domain->domain.'&subdomain='.$domain->subdomain); ?>" class="cpebutton icon move cpanelExtendedAjaxRequest"><?php $this->_('Cpe.button.redirect'); ?></a>
+                            <a href="<?php echo $this->Html->safe($this->uri.'delete/?domain='.$domain->domain.'&subdomain='.$domain->subdomain); ?>" class="cpebutton danger icon trash cpanelExtendedAjaxRequest"><?php $this->_('Cpe.button.delete'); ?></a>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="odd_row modifyData" style="display: none;">
+                    <td colspan="5">
+                        
+                    </td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+    
+    <div class="clear"></div>
+</div>
+
+<?php echo $this->jsScripts; ?>

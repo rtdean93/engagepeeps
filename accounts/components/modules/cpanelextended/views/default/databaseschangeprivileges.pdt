@@ -1,0 +1,40 @@
+<?php $this->Form->create($this->uri.'changeprivileges', array('class' => 'cpanelExtendedAjaxExecute')); ?>
+    <table id="" style="padding-left: 250px;">
+       <tbody>
+          <tr>
+             <td style="width: 125px; text-align: right"><?php $this->_('Cpe.label.username'); ?></td>
+             <td><?php $this->Html->_($this->username); ?></td>
+          </tr>
+          <!--
+          <tr>
+             <td style="width: 125px; text-align: right"><?php $this->_('Cpe.label.privileges'); ?></td> 
+             <td align="left" colspan="2">
+                <label style="float: left; margin-right: 15px;"><?php $this->Form->fieldCheckbox('privileges[]', 'alter', true, array('class' => 'privileges')); ?> ALTER</label>
+                <label style="float: left; margin-right: 15px;"><?php $this->Form->fieldCheckbox('privileges[]', 'temporary', true, array('class' => 'privileges')); ?> CREATE TEMPORARY TABLES</label>
+                <label style="float: left; margin-right: 15px;"><?php $this->Form->fieldCheckbox('privileges[]', 'routine', true, array('class' => 'privileges')); ?> CREATE ROUTINE</label>
+                <label style="float: left; margin-right: 15px;"><?php $this->Form->fieldCheckbox('privileges[]', 'create', true, array('class' => 'privileges')); ?> CREATE</label>
+                <label style="float: left; margin-right: 15px;"><?php $this->Form->fieldCheckbox('privileges[]', 'delete', true, array('class' => 'privileges')); ?> DELETE</label>
+                <label style="float: left; margin-right: 15px;"><?php $this->Form->fieldCheckbox('privileges[]', 'drop', true, array('class' => 'privileges')); ?> DROP</label>
+                <label style="float: left; margin-right: 15px;"><?php $this->Form->fieldCheckbox('privileges[]', 'select', true, array('class' => 'privileges')); ?> SELECT</label>
+                <label style="float: left; margin-right: 15px;"><?php $this->Form->fieldCheckbox('privileges[]', 'insert', true, array('class' => 'privileges')); ?> INSERT</label>
+                <label style="float: left; margin-right: 15px;"><?php $this->Form->fieldCheckbox('privileges[]', 'update', true, array('class' => 'privileges')); ?> UPDATE</label>
+                <label style="float: left; margin-right: 15px;"><?php $this->Form->fieldCheckbox('privileges[]', 'references', true, array('class' => 'privileges')); ?> REFERENCES</label>
+                <label style="float: left; margin-right: 15px;"><?php $this->Form->fieldCheckbox('privileges[]', 'index', true, array('class' => 'privileges')); ?> INDEX</label>
+                <label style="float: left; margin-right: 15px;"><?php $this->Form->fieldCheckbox('privileges[]', 'lock', true, array('class' => 'privileges')); ?> LOCK</label>
+                <label style="float: left; margin-right: 15px;" id="togglePrivileges"><?php $this->Form->fieldCheckbox('privileges[]', 'all', true); ?> ALL</label>
+             </td>
+          </tr>-->
+          <tr>
+             <td align="left" colspan="2">
+                 <div class="cpebutton-group">
+                    <!--<button type="submit" class="cpebutton icon edit cpExtendedSubmit"><?php $this->_('Cpe.label.updateprivs'); ?></button>-->
+                    <button type="submit" class="cpebutton danger icon trash deleteuserfromdb cpExtendedSubmit" data-action="<?php echo $this->Html->safe($this->uri.'deleteuserfromdb?database='.$this->database.'&dbusername='.$this->username); ?>"><?php $this->_('Cpe.label.deletedbfromuser'); ?></button>
+                    <a href="#" class="hideFormBox withleftmargin"><?php $this->_('Cpe.label.close'); ?></a>
+                 </div>
+             </td>
+          </tr>
+       </tbody>
+    </table>
+    <?php $this->Form->fieldHidden('database', $this->database); ?>
+    <?php $this->Form->fieldHidden('dbusername', $this->username); ?>
+<?php $this->Form->end(); ?>    

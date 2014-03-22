@@ -1,0 +1,63 @@
+<?php $this->Form->create($this->uri.'edit', array('class' => 'cpanelExtendedAjaxExecute', 'data-do' => 'edit')); ?>
+    <table id="" style="padding-left: 90px;">
+       <tbody>
+          <tr>
+             <td style="width: 125px;"><?php $this->_('Cpe.label.cronline'); ?></td>
+             <td><?php $this->Html->_($this->line); ?></td>
+          </tr>
+          <tr>
+              <td><?php $this->_('Cpe.label.minute'); ?></td>
+              <td><?php $this->_('Cpe.label.hour'); ?></td>
+              <td><?php $this->_('Cpe.label.day'); ?></td>
+              <td><?php $this->_('Cpe.label.month'); ?></td>
+              <td><?php $this->_('Cpe.label.weekday'); ?></td>
+              <td><?php $this->_('Cpe.label.commonsettings'); ?></td>
+          </tr>
+          <tr>
+              <td style="width: 13%;">
+                  <?php $this->Form->fieldText('jobminute', $this->Html->ifSet($this->post['jobminute'], $this->job->minute), array('style' => 'width: 50px; float: left;')); ?>
+              </td>
+              <td style="width: 90px;">
+                  <?php $this->Form->fieldText('jobhour', $this->Html->ifSet($this->post['jobhour'], $this->job->hour), array('style' => 'width: 50px; float: left;')); ?>
+              </td>
+              <td style="width: 90px;">
+                  <?php $this->Form->fieldText('jobday', $this->Html->ifSet($this->post['jobday'], $this->job->day), array('style' => 'width: 50px; float: left;')); ?>
+              </td>
+              <td style="width: 90px;">
+                  <?php $this->Form->fieldText('jobmonth', $this->Html->ifSet($this->post['jobmonth'], $this->job->month), array('style' => 'width: 50px; float: left;')); ?>
+              </td>
+              <td style="width: 90px;">
+                  <?php $this->Form->fieldText('jobweekday', $this->Html->ifSet($this->post['jobweekday'], $this->job->weekday), array('style' => 'width: 50px; float: left;')); ?>
+              </td>
+              <td>
+                 <select id="cronSettingsAjax" style="width: 200px; float:left">
+                    <option value="--"><?php $this->_('Cpe.cron.commonsettings'); ?></option>
+                    <option value="* * * * *"><?php $this->_('Cpe.cron.everyminute'); ?></option>
+                    <option value="*/5 * * * *"><?php $this->_('Cpe.cron.everyfive'); ?></option>
+                    <option value="0,30 * * * *"><?php $this->_('Cpe.cron.twicehour'); ?></option>
+                    <option value="0 * * * *"><?php $this->_('Cpe.cron.oncehour'); ?></option>
+                    <option value="0 0,12 * * *"><?php $this->_('Cpe.cron.twiceday'); ?></option>
+                    <option value="0 0 * * *"><?php $this->_('Cpe.cron.onceday'); ?></option>
+                    <option value="0 0 * * 0"><?php $this->_('Cpe.cron.onceweek'); ?></option>
+                    <option value="0 0 1,15 * *"><?php $this->_('Cpe.cron.firstand15th'); ?></option>
+                    <option value="0 0 1 * *"><?php $this->_('Cpe.cron.oncemonth'); ?></option>
+                    <option value="0 0 1 1 *"><?php $this->_('Cpe.cron.onceyear'); ?></option>
+                 </select>
+              </td>
+          </tr>
+          <tr>
+              <td style="width: 125px;"><?php $this->_('Cpe.label.command'); ?></td>
+          </tr>
+          <tr>
+              <td colspan="6"><?php $this->Form->fieldText('command', $this->Html->ifSet($this->post['command'], $this->job->command)); ?></td>
+          </tr>
+          <tr>
+             <td align="left" colspan="2">
+                 <button type="submit" class="cpebutton icon edit"><?php $this->_('Cpe.button.save'); ?></button>
+                 <a href="#" class="hideFormBox withleftmargin"><?php $this->_('Cpe.label.close'); ?></a>
+             </td>
+          </tr>
+       </tbody>
+    </table>
+    <?php $this->Form->fieldHidden('line', $this->line); ?>
+<?php $this->Form->end(); ?>    

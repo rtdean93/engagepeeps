@@ -1,0 +1,81 @@
+<?php echo $this->commonHeader; ?>
+<div class="heading options space">
+    <h5><?php $this->_('Cpe.titles.stats'); ?></h5>
+</div>
+<div class="pad">
+        <div class="table_sec">
+                <table class="table">
+                        <thead>
+                                <tr class="head">
+                                        <td style="width: 50%;"><?php $this->_("Cpe.tab_client_stats.info_heading.field");?></td>
+                                        <td class="last"><?php $this->_("Cpe.tab_client_stats.info_heading.value");?></td>
+                                </tr>
+                        </thead>
+                        <tbody>
+                                <?php
+                                $keys = array("domain", "user", "email", "ip", "plan", "theme", "maxftp", "maxpop", "maxsql", "maxsub", "maxparked", "maxaddons", "startdate");
+                                foreach ($keys as $i => $key) : if (isset($this->stats->account_info->acct[0]->{$key})): ?>
+                                        <tr<?php echo $this->Html->concat(" ", ($i%2 == 1) ? " class=\"odd_row\"" : "", "");?>>
+                                                <td><?php $this->_("Cpe.tab_client_stats.info." . $key);?></td>
+                                                <td><?php $this->Html->_($this->stats->account_info->acct[0]->{$key});?></td>
+                                        </tr>              
+                                <?php endif; endforeach; ?>
+                        </tbody>
+                </table>
+        </div>
+        <div class="clear"></div>
+</div>
+
+<div class="heading options space">
+        <h5><?php $this->_("Cpe.tab_client_stats.usage_title");?></h5>
+</div>
+<div class="pad">
+		<div id="graph_bandwidth" style="float: left; width: 50%;"></div>
+		<div id="graph_disk" style="float: left; width: 50%;"></div>
+	</div>
+	
+<!--[if lt IE 9]><script type="text/javascript" src="<?php echo $this->Html->safe(VENDORWEBDIR . "jqplot/excanvas.min.js");?>"></script><![endif]-->
+<script type="text/javascript" src="<?php echo $this->Html->safe(VENDORWEBDIR . "jqplot/jquery.jqplot.min.js");?>"></script>
+<script type="text/javascript" src="<?php echo $this->Html->safe(VENDORWEBDIR . "jqplot/plugins/jqplot.pieRenderer.min.js");?>"></script>
+
+<script type="text/javascript">
+	$(document).blestaSetHeadTag("link", {media:"screen", type:"text/css", rel:"stylesheet", href: "<?php echo $this->Html->safe(VENDORWEBDIR . "jqplot/jquery.jqplot.min.css");?>"});
+	
+	$(document).ready(function() {
+		
+		var bandwidth_data = [
+			['<?php echo $this->Html->safe($this->_("Cpe.tab_client_stats.bandwidth_heading.used", true, $this->stats->bandwidth_usage['used']));?>', <?php echo $this->Html->safe($this->stats->bandwidth_usage['used']);?>],
+			['<?php echo $this->Html->safe($this->_("Cpe.tab_client_stats.bandwidth_heading.unused", true, $this->stats->bandwidth_usage['limit']-$this->stats->bandwidth_usage['used']));?>', <?php echo $this->Html->safe($this->stats->bandwidth_usage['limit']-$this->stats->bandwidth_usage['used']);?>],
+		];
+		var disk_data = [
+			['<?php echo $this->Html->safe($this->_("Cpe.tab_client_stats.disk_heading.used", true, $this->stats->disk_usage['used']));?>', 2500],
+			['<?php echo $this->Html->safe($this->_("Cpe.tab_client_stats.disk_heading.unused", true, $this->stats->disk_usage['limit']-$this->stats->disk_usage['used']));?>', <?php echo $this->Html->safe($this->stats->disk_usage['limit']-$this->stats->disk_usage['used']);?>],
+		];
+		
+		var bandwidth = plotGraph('graph_bandwidth', [bandwidth_data], '<?php echo $this->Html->safe($this->_("Cpe.tab_client_stats.bandwidth_title", true));?>');
+		var disk = plotGraph('graph_disk', [disk_data], '<?php echo $this->Html->safe($this->_("Cpe.tab_client_stats.disk_title", true));?>');
+		
+		function plotGraph(name, data, title) {
+			return $.jqplot(name, data, {
+				seriesColors: ["#F78B83", "#76ce00"],
+				title: title,
+				seriesDefaults: {
+					renderer: $.jqplot.PieRenderer,
+					rendererOptions: {
+						showDataLabels: true
+					}
+				},
+				legend: {
+					show: true,
+					location: 'ne', 
+				},
+				grid: {
+					background: '#ffffff',
+					borderWidth: 0,
+					shadow: false
+				}
+			});
+		}
+	});
+</script>
+<?php echo $this->jsScripts; ?>
