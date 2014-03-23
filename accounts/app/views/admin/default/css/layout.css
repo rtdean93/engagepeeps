@@ -829,3 +829,9 @@ body span.cke_skin_kama { border:1px solid #f0f0f0;}
 /* Automation */
 #cron_results { padding-top:20px;}
 #cron_results iframe { border:1px solid #e1e1e1; width: 100%; height:300px;}
+
+header#main_header .top_row {
+
+height: 70px;
+
+}
